@@ -48,24 +48,42 @@ bookBtn.addEventListener("click", () => {
         return;
     }
 
+    const studentName =
+        document.getElementById("studentName").value.trim();
+
+    const studentId =
+        document.getElementById("studentId").value.trim();
+
+    if (studentName === "") {
+        alert("Please enter your name.");
+        return;
+    }
+
+    if (studentId === "") {
+        alert("Please enter your student ID.");
+        return;
+    }
+
     fetch("/api/book-slot", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            studentName: studentName,
+            studentId: studentId,
             mentor: mentorSelect.value,
             time: selectedSlot
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-    })
-    .catch(error => {
-        alert("Booking failed.");
-        console.error(error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            alert("Booking failed.");
+            console.error(error);
+        });
 
 });
 
@@ -83,7 +101,8 @@ function updateBookedSlots() {
 
                 slot.classList.remove("booked");
 
-                slot.innerText = slot.innerText.replace(" (Booked)", "");
+                slot.innerText =
+                    slot.innerText.replace(" (Booked)", "");
 
             });
 
@@ -100,7 +119,8 @@ function updateBookedSlots() {
 
                             slot.classList.add("booked");
 
-                            slot.innerText = booking.time + " (Booked)";
+                            slot.innerText =
+                                booking.time + " (Booked)";
 
                         }
 
