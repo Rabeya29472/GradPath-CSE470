@@ -70,13 +70,20 @@
     </div>
 
     <script>
-        const mentors = [
-            { name: "Sarah Ahmed", goal: "Software Engineer", industry: "AI", exp: 6, company: "Google", title: "Senior SWE", skills: ["Java", "Node", "React"] },
-            { name: "Rakib Hasan", goal: "Software Engineer", industry: "FinTech", exp: 4, company: "bKash", title: "Backend Engineer", skills: ["Java", "Spring", "SQL"] },
-            { name: "Nabila Noor", goal: "Data Analyst", industry: "FinTech", exp: 5, company: "Mastercard", title: "Data Analyst", skills: ["Python", "SQL", "Power BI"] },
-            { name: "Ayan Khan", goal: "UI Designer", industry: "EdTech", exp: 7, company: "10 Minute School", title: "Product Designer", skills: ["Figma", "UX", "Design"] },
-            { name: "Tanvir Islam", goal: "Cybersecurity", industry: "Healthcare", exp: 9, company: "Cisco", title: "Security Engineer", skills: ["SOC", "Network", "Linux"] }
-        ];
+        let mentors = [];
+
+        async function loadMentors() {
+            try {
+                const res = await fetch('/api/mentors');
+                if (!res.ok) {
+                    throw new Error('Failed to load mentor data');
+                }
+                mentors = await res.json();
+                match();
+            } catch (error) {
+                document.getElementById('results').innerHTML = '<p>Unable to load mentor data. Please try again later.</p>';
+            }
+        }
 
         function match() {
             const g = document.getElementById('goal').value;
@@ -114,7 +121,7 @@
             });
         }
 
-        match();
+        loadMentors();
     </script>
 </body>
 </html>

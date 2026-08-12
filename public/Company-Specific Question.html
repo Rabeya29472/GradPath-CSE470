@@ -652,86 +652,24 @@
         // ============================================================
         // DATA
         // ============================================================
-        let questions = [
-            {
-                id: 1,
-                company: "Google",
-                role: "Software Engineer",
-                question: "Design a distributed key-value store with low latency and high availability. How would you handle network partitions?",
-                difficulty: "Hard",
-                topic: "System Design",
-                experience: "They focused heavily on consistency models and fault tolerance.",
-                postedBy: "Sarah Ahmed",
-                postedYear: "2020",
-                verified: true,
-                date: "2026-07-15"
-            },
-            {
-                id: 2,
-                company: "Microsoft",
-                role: "Software Engineer",
-                question: "Implement a LRU Cache using a combination of HashMap and Doubly Linked List. Write code in any language.",
-                difficulty: "Medium",
-                topic: "Data Structures",
-                experience: "They wanted a complete working solution with proper explanation.",
-                postedBy: "Ayan Khan",
-                postedYear: "2023",
-                verified: true,
-                date: "2026-07-18"
-            },
-            {
-                id: 3,
-                company: "Google",
-                role: "Software Engineer",
-                question: "Write a function to find the longest substring without repeating characters. Explain the time and space complexity.",
-                difficulty: "Medium",
-                topic: "Algorithms",
-                experience: "This was the first coding round. They also asked about edge cases.",
-                postedBy: "Sarah Ahmed",
-                postedYear: "2020",
-                verified: true,
-                date: "2026-07-20"
-            },
-            {
-                id: 4,
-                company: "Samsung R&D",
-                role: "Embedded Engineer",
-                question: "Explain the difference between RTOS and GPOS. How would you handle real-time constraints in embedded systems?",
-                difficulty: "Medium",
-                topic: "Embedded Systems",
-                experience: "They wanted practical examples from actual projects.",
-                postedBy: "Tanvir Islam",
-                postedYear: "2022",
-                verified: true,
-                date: "2026-07-22"
-            },
-            {
-                id: 5,
-                company: "Mastercard",
-                role: "Business Analyst",
-                question: "How would you analyze a dataset to find fraudulent transactions? Walk me through your approach.",
-                difficulty: "Easy",
-                topic: "Data Analysis",
-                experience: "They wanted to see logical thinking and communication skills.",
-                postedBy: "Nabila Noor",
-                postedYear: "2019",
-                verified: true,
-                date: "2026-07-23"
-            },
-            {
-                id: 6,
-                company: "Microsoft",
-                role: "Cloud Engineer",
-                question: "Design a scalable event-driven architecture using Azure Functions and Service Bus. How would you handle retries and failures?",
-                difficulty: "Hard",
-                topic: "Cloud Architecture",
-                experience: "This was for the Azure team. They wanted detailed architectural decisions.",
-                postedBy: "Ayan Khan",
-                postedYear: "2023",
-                verified: true,
-                date: "2026-07-24"
+        let questions = [];
+
+        async function loadQuestions() {
+            try {
+                const res = await fetch('/api/questions');
+                if (!res.ok) {
+                    throw new Error('Failed to load questions');
+                }
+                questions = await res.json();
+                populateCompanyFilter();
+                renderQuestions(questions);
+            } catch (error) {
+                const list = document.getElementById('questionList');
+                const empty = document.getElementById('emptyState');
+                list.innerHTML = '<div class="question-card"><p style="margin:0; color:#dc2626;">Unable to load question data. Please try again later.</p></div>';
+                empty.style.display = 'none';
             }
-        ];
+        }
 
         let nextId = 7;
 
@@ -876,7 +814,7 @@
         // ============================================================
         // SUBMIT QUESTION
         // ============================================================
-        function submitQuestion(e) {
+        async function submitQuestion(e) {
             e.preventDefault();
 
             const company = document.getElementById('qCompany').value.trim();
@@ -893,7 +831,6 @@
             }
 
             const newQuestion = {
-                id: nextId++,
                 company: company,
                 role: role,
                 question: question,
@@ -906,19 +843,35 @@
                 date: new Date().toISOString().split('T')[0]
             };
 
-            questions.unshift(newQuestion);
-            closeModal();
-            document.getElementById('qCompany').value = '';
-            document.getElementById('qRole').value = '';
-            document.getElementById('qQuestion').value = '';
-            document.getElementById('qDifficulty').value = '';
-            document.getElementById('qTopic').value = '';
-            document.getElementById('qExperience').value = '';
-            document.getElementById('qVerified').checked = true;
-            
-            populateCompanyFilter();
-            renderQuestions(questions);
-            showToast('✅ Question submitted successfully!');
+            try {
+                const res = await fetch('/api/questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newQuestion)
+                });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Unable to save question');
+                }
+
+                const savedQuestion = await res.json();
+                questions = [savedQuestion, ...questions];
+                closeModal();
+                document.getElementById('qCompany').value = '';
+                document.getElementById('qRole').value = '';
+                document.getElementById('qQuestion').value = '';
+                document.getElementById('qDifficulty').value = '';
+                document.getElementById('qTopic').value = '';
+                document.getElementById('qExperience').value = '';
+                document.getElementById('qVerified').checked = true;
+                
+                populateCompanyFilter();
+                renderQuestions(questions);
+                showToast('✅ Question submitted successfully!');
+            } catch (error) {
+                showToast(error.message || 'Question could not be submitted.', 'error');
+            }
         }
 
         // ============================================================
@@ -945,8 +898,7 @@
         // ============================================================
         // INIT
         // ============================================================
-        populateCompanyFilter();
-        renderQuestions(questions);
+        loadQuestions();
     </script>
 
 </body>

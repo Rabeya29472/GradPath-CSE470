@@ -168,75 +168,23 @@
 
     <script>
         // ============================================================
-        // DATA - 5 Sample Jobs
+        // DATA
         // ============================================================
-        let jobs = [
-            {
-                id: 1,
-                title: "Software Engineer Intern",
-                company: "Google",
-                type: "Internship",
-                major: "CSE",
-                location: "Dhaka, Bangladesh",
-                description: "Join Google's engineering team for a 3-month internship. Work on real-world projects and build scalable cloud solutions.",
-                applyLink: "https://careers.google.com",
-                postedBy: "Sarah Ahmed",
-                postedYear: "2020",
-                verified: true
-            },
-            {
-                id: 2,
-                title: "Business Analyst",
-                company: "Mastercard",
-                type: "Full-time",
-                major: "BBA",
-                location: "Dhaka, Bangladesh",
-                description: "Mastercard is hiring fresh BBA grads for our Business Analyst program. Analyze financial data and support decision-making.",
-                applyLink: "mailto:careers@mastercard.com",
-                postedBy: "Nabila Noor",
-                postedYear: "2019",
-                verified: true
-            },
-            {
-                id: 3,
-                title: "Embedded Systems Engineer",
-                company: "Samsung R&D",
-                type: "Full-time",
-                major: "EEE",
-                location: "Dhaka, Bangladesh",
-                description: "Samsung R&D is looking for passionate EEE graduates to work on next-gen embedded systems.",
-                applyLink: "https://samsung.com/careers",
-                postedBy: "Tanvir Islam",
-                postedYear: "2022",
-                verified: true
-            },
-            {
-                id: 4,
-                title: "Cloud Engineer",
-                company: "Microsoft",
-                type: "Full-time",
-                major: "CSE",
-                location: "Remote",
-                description: "Microsoft is expanding its cloud team. Looking for CSE grads with knowledge of Azure and DevOps.",
-                applyLink: "https://microsoft.com/careers",
-                postedBy: "Ayan Khan",
-                postedYear: "2023",
-                verified: true
-            },
-            {
-                id: 5,
-                title: "Backend Developer",
-                company: "bKash",
-                type: "Full-time",
-                major: "CSE",
-                location: "Dhaka, Bangladesh",
-                description: "bKash is hiring a Backend Developer to join our fintech team. Work on high-traffic payment systems.",
-                applyLink: "https://bkash.com/careers",
-                postedBy: "Rakib Hasan",
-                postedYear: "2021",
-                verified: true
+        let jobs = [];
+
+        async function loadJobs() {
+            try {
+                const res = await fetch('/api/jobs');
+                if (!res.ok) {
+                    throw new Error('Failed to load jobs');
+                }
+                jobs = await res.json();
+                renderJobs(jobs);
+            } catch (error) {
+                document.getElementById('jobListings').innerHTML = '<div class="empty"><p>📭 Unable to load job data. Please try again later.</p></div>';
+                document.getElementById('emptyState').style.display = 'none';
             }
-        ];
+        }
 
         let nextId = 6;
 
@@ -349,7 +297,7 @@
         // ============================================================
         // SUBMIT JOB
         // ============================================================
-        function submitJob(e) {
+        async function submitJob(e) {
             e.preventDefault();
 
             const title = document.getElementById('jobTitle').value.trim();
@@ -365,7 +313,6 @@
             }
 
             const newJob = {
-                id: nextId++,
                 title: title,
                 company: company,
                 type: type,
@@ -378,17 +325,39 @@
                 verified: true
             };
 
-            jobs.unshift(newJob);
-            closeModal();
-            document.getElementById('jobForm').reset();
-            renderJobs(jobs);
-            alert(' Job posted successfully! It will appear at the top of the list.');
+            try {
+                const res = await fetch('/api/jobs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newJob)
+                });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Unable to save job');
+                }
+
+                const savedJob = await res.json();
+                jobs = [savedJob, ...jobs];
+                closeModal();
+                document.getElementById('jobTitle').value = '';
+                document.getElementById('jobCompany').value = '';
+                document.getElementById('jobType').value = '';
+                document.getElementById('jobMajor').value = '';
+                document.getElementById('jobLocation').value = '';
+                document.getElementById('jobDescription').value = '';
+                document.getElementById('jobApplyLink').value = '';
+                renderJobs(jobs);
+                alert(' Job posted successfully! It will appear at the top of the list.');
+            } catch (error) {
+                alert(error.message || 'Job could not be posted.');
+            }
         }
 
         // ============================================================
         // INITIAL RENDER
         // ============================================================
-        renderJobs(jobs);
+        loadJobs();
     </script>
 
 </body>
