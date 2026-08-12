@@ -4,6 +4,47 @@ const path = require('path');
 const bookingFile = './bookingData.json'; //added by rabeya//
 const app = express();
 const PORT = 8000;
+const multer = require('multer');
+
+// Resume Upload Configuration
+
+const storage = multer.diskStorage({
+
+    destination: (req, file, cb) => {
+
+        cb(null, path.join(__dirname, "public/uploads"));
+
+    },
+
+    filename: (req, file, cb) => {
+
+        const uniqueName = Date.now() + "_" + file.originalname;
+
+        cb(null, uniqueName);
+
+    }
+
+});
+
+const upload = multer({
+
+    storage: storage,
+
+    fileFilter: (req, file, cb) => {
+
+        if (file.mimetype === "application/pdf") {
+
+            cb(null, true);
+
+        } else {
+
+            cb(new Error("Only PDF files are allowed."));
+
+        }
+
+    }
+
+});
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,6 +75,167 @@ app.post('/api/verify-alumni', (req, res) => {
   } catch (error) {
     return res.status(500).json({ verified: false, message: "Server configuration error." });
   }
+});
+
+// Resume Critique Request API
+
+app.post("/api/resume-request", upload.single("resume"), (req, res) => {
+
+    try {
+
+        const resumePath = "./resumeRequests.json";
+
+        const rawData = fs.readFileSync(resumePath);
+
+        const requests = JSON.parse(rawData);
+
+        const newRequest = {
+
+            id: Date.now(),
+
+            studentName: req.body.studentName,
+
+            studentId: req.body.studentId,
+
+            mentor: req.body.mentor,
+
+            resume: req.file.filename,
+
+            notes: req.body.notes,
+
+            status: "Pending",
+
+            feedback: ""
+
+        };
+
+        requests.push(newRequest);
+
+        fs.writeFileSync(
+            resumePath,
+            JSON.stringify(requests, null, 2)
+        );
+
+        res.json({
+
+            success: true,
+
+            message: "Resume request submitted successfully."
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Failed to submit resume request."
+
+        });
+
+    }
+
+});
+// Get All Resume Requests
+
+app.get("/api/resume-requests", (req, res) => {
+
+    try {
+
+        const requests = JSON.parse(
+
+            fs.readFileSync("./resumeRequests.json")
+
+        );
+
+        res.json(requests);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            message: "Failed to load resume requests."
+
+        });
+
+    }
+
+});
+// Submit Resume Feedback
+
+app.post("/api/review-resume", express.json(), (req, res) => {
+
+    try {
+
+        const requests = JSON.parse(
+
+            fs.readFileSync("./resumeRequests.json")
+
+        );
+
+        const request = requests.find(
+
+            item => item.id == req.body.id
+
+        );
+
+        if (!request) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Request not found."
+
+            });
+
+        }
+
+        request.feedback = req.body.feedback;
+
+        request.status = "Reviewed";
+
+        fs.writeFileSync(
+
+            "./resumeRequests.json",
+
+            JSON.stringify(requests, null, 2)
+
+        );
+
+        res.json({
+
+            success: true,
+
+            message: "Feedback submitted successfully."
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Failed to submit feedback."
+
+        });
+
+    }
+
 });
 
 //added by rabeya//
