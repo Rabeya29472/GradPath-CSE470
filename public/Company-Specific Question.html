@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GradPath - Company-Specific Question Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+        
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            color: #166534;
+            font-weight: 600;
+            background: #dcfce7;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .divider {
+            border: 0;
+            border-top: 1px solid #e2e8f0;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 8px;
+            display: block;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .nav-btn.active {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .exit-link {
+            color: #64748b;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .workspace {
+            flex: 1;
+            padding: 40px 60px;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #0f172a;
+        }
+        
+        .header p {
+            color: #64748b;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .panel {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .summary-strip {
+            font-family: monospace;
+            background: #f8fafc;
+            padding: 8px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+        
+        .btn-outline:hover {
+            background: #eff6ff;
+        }
+        
+        .btn-success {
+            background: #16a34a;
+            color: #fff;
+        }
+        
+        .btn-success:hover {
+            background: #15803d;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-card .label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-top: 5px;
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .filters input,
+        .filters select {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 150px;
+            font-family: inherit;
+            background: #fff;
+        }
+        
+        .question-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+        }
+        
+        .question-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .question-card .company {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .question-card .company .badge {
+            font-size: 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: normal;
+        }
+        
+        .question-card .question {
+            font-size: 16px;
+            color: #0f172a;
+            margin: 10px 0;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .question-card .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .question-card .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .question-card .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+        }
+        
+        .question-card .footer .poster {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .question-card .footer .poster .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        
+        .question-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .question-card .tags .tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #475569;
+        }
+        
+        .question-card .tags .tag.difficulty-easy {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .question-card .tags .tag.difficulty-medium {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+        
+        .question-card .tags .tag.difficulty-hard {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 2px dashed #e2e8f0;
+            color: #94a3b8;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .meta-panel {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+        
+        .modal-content input,
+        .modal-content select,
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        .modal-content textarea {
+            min-height: 80px;
+        }
+        
+        .modal-content label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .modal-actions .btn-cancel {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            background: transparent;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .modal-actions .btn-submit {
+            flex: 2;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #2563eb;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .modal-actions .btn-submit:hover {
+            background: #1d4ed8;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2563eb;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .toast.error {
+            background: #dc2626;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+            }
+            .workspace {
+                padding: 20px;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .card {
+                padding: 20px;
+            }
+            .action-row {
+                justify-content: flex-start;
+            }
+            .grid,
+            .meta-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="brand">🛡️ Verified Hub</div>
+        <div class="status-badge">Account Status: Active Mentor</div>
+        <hr class="divider">
+        <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+        <a href="verify.html" class="nav-btn">🛡️ Verification Portal (F8)</a>
+        <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator (F12)</a>
+        <a href="question-vault.html" class="nav-btn active">📚 Question Vault</a>
+        <a class="exit-link" href="index.html">← Exit Secure Session</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="workspace">
+        <div class="header">
+            <h2>Question Vault Workspace</h2>
+            <p>Browse alumni-shared company questions using the same workspace shell as the rest of GradPath.</p>
+        </div>
+
+        <div class="card">
+            <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Active Runtime Token Key</span><br>
+            <div class="summary-strip" id="summaryDisplay">GP-QUESTION-VAULT</div>
+
+            <div class="action-row">
+                <button class="btn btn-outline" onclick="resetFilters()">↻ Reset</button>
+                <button class="btn btn-primary" onclick="openModal()">+ Add Question</button>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-panel">
+                    <h4 style="margin: 0 0 6px 0;">📘 Vault Overview</h4>
+                    <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Browse real interview questions shared by alumni.</p>
+                </div>
+                <div class="meta-panel">
+                    <h4 style="margin: 0 0 6px 0;">🧩 Search Controls</h4>
+                    <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Filter by company, role, and difficulty in the same project style.</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="panel">
+                    <div class="label">Total Questions</div>
+                    <div class="value" id="totalQuestions">0</div>
+                </div>
+                <div class="panel">
+                    <div class="label">Companies</div>
+                    <div class="value" id="totalCompanies">0</div>
+                </div>
+                <div class="panel">
+                    <div class="label">Alumni Contributors</div>
+                    <div class="value" id="totalContributors">0</div>
+                </div>
+                <div class="panel">
+                    <div class="label">Verified Questions</div>
+                    <div class="value" id="verifiedQuestions">0</div>
+                </div>
+            </div>
+
+            <div class="filters" style="margin-top: 24px;">
+                <input type="text" id="searchInput" placeholder="🔍 Search company, question, or topic..." oninput="applyFilters()">
+                <select id="companyFilter" onchange="applyFilters()">
+                    <option value="">All Companies</option>
+                </select>
+                <select id="difficultyFilter" onchange="applyFilters()">
+                    <option value="">All Difficulties</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <select id="roleFilter" onchange="applyFilters()">
+                    <option value="">All Roles</option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="DevOps">DevOps</option>
+                    <option value="Product Manager">Product Manager</option>
+                    <option value="UI/UX">UI/UX</option>
+                    <option value="Backend">Backend</option>
+                    <option value="Frontend">Frontend</option>
+                    <option value="Full Stack">Full Stack</option>
+                </select>
+            </div>
+
+            <div class="panel" style="margin-top: 24px;">
+                <!-- Questions -->
+                <div id="questionList"></div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty" style="display:none;">
+                    <p>📭 No questions found. Be the first to contribute!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <h2>📝 Add Interview Question</h2>
+            <p style="color:#64748b; margin-bottom:20px;">Share a real interview question you faced. Help fellow students prepare!</p>
+            <form onsubmit="submitQuestion(event)">
+                <label>Company Name *</label>
+                <input type="text" id="qCompany" placeholder="e.g. Google" required>
+                
+                <label>Job Role *</label>
+                <input type="text" id="qRole" placeholder="e.g. Software Engineer" required>
+                
+                <label>Question *</label>
+                <textarea id="qQuestion" placeholder="Describe the interview question..." required></textarea>
+                
+                <label>Difficulty *</label>
+                <select id="qDifficulty" required>
+                    <option value="">Select difficulty</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                
+                <label>Topic/Category</label>
+                <input type="text" id="qTopic" placeholder="e.g. Algorithms, System Design, Data Structures">
+                
+                <label>Your Experience (Optional)</label>
+                <textarea id="qExperience" placeholder="Share tips or context about this question..."></textarea>
+                
+                <div style="margin: 15px 0;">
+                    <input type="checkbox" id="qVerified" checked>
+                    <label for="qVerified" style="font-weight:normal;"> Verified by alumni</label>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-submit">🚀 Submit Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // ============================================================
+        // DATA
+        // ============================================================
+        let questions = [
+            {
+                id: 1,
+                company: "Google",
+                role: "Software Engineer",
+                question: "Design a distributed key-value store with low latency and high availability. How would you handle network partitions?",
+                difficulty: "Hard",
+                topic: "System Design",
+                experience: "They focused heavily on consistency models and fault tolerance.",
+                postedBy: "Sarah Ahmed",
+                postedYear: "2020",
+                verified: true,
+                date: "2026-07-15"
+            },
+            {
+                id: 2,
+                company: "Microsoft",
+                role: "Software Engineer",
+                question: "Implement a LRU Cache using a combination of HashMap and Doubly Linked List. Write code in any language.",
+                difficulty: "Medium",
+                topic: "Data Structures",
+                experience: "They wanted a complete working solution with proper explanation.",
+                postedBy: "Ayan Khan",
+                postedYear: "2023",
+                verified: true,
+                date: "2026-07-18"
+            },
+            {
+                id: 3,
+                company: "Google",
+                role: "Software Engineer",
+                question: "Write a function to find the longest substring without repeating characters. Explain the time and space complexity.",
+                difficulty: "Medium",
+                topic: "Algorithms",
+                experience: "This was the first coding round. They also asked about edge cases.",
+                postedBy: "Sarah Ahmed",
+                postedYear: "2020",
+                verified: true,
+                date: "2026-07-20"
+            },
+            {
+                id: 4,
+                company: "Samsung R&D",
+                role: "Embedded Engineer",
+                question: "Explain the difference between RTOS and GPOS. How would you handle real-time constraints in embedded systems?",
+                difficulty: "Medium",
+                topic: "Embedded Systems",
+                experience: "They wanted practical examples from actual projects.",
+                postedBy: "Tanvir Islam",
+                postedYear: "2022",
+                verified: true,
+                date: "2026-07-22"
+            },
+            {
+                id: 5,
+                company: "Mastercard",
+                role: "Business Analyst",
+                question: "How would you analyze a dataset to find fraudulent transactions? Walk me through your approach.",
+                difficulty: "Easy",
+                topic: "Data Analysis",
+                experience: "They wanted to see logical thinking and communication skills.",
+                postedBy: "Nabila Noor",
+                postedYear: "2019",
+                verified: true,
+                date: "2026-07-23"
+            },
+            {
+                id: 6,
+                company: "Microsoft",
+                role: "Cloud Engineer",
+                question: "Design a scalable event-driven architecture using Azure Functions and Service Bus. How would you handle retries and failures?",
+                difficulty: "Hard",
+                topic: "Cloud Architecture",
+                experience: "This was for the Azure team. They wanted detailed architectural decisions.",
+                postedBy: "Ayan Khan",
+                postedYear: "2023",
+                verified: true,
+                date: "2026-07-24"
+            }
+        ];
+
+        let nextId = 7;
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderQuestions(filtered) {
+            const container = document.getElementById('questionList');
+            const empty = document.getElementById('emptyState');
+
+            const data = filtered || questions;
+
+            if (data.length === 0) {
+                container.innerHTML = '';
+                empty.style.display = 'block';
+                updateStats([]);
+                return;
+            }
+
+            empty.style.display = 'none';
+            updateStats(data);
+
+            let html = '';
+            data.forEach(q => {
+                const initial = q.postedBy.charAt(0);
+                const difficultyClass = `difficulty-${q.difficulty.toLowerCase()}`;
+                
+                html += `
+                    <div class="question-card">
+                        <div class="company">
+                            🏢 ${q.company}
+                            <span class="badge">${q.role}</span>
+                            ${q.verified ? '<span class="badge" style="background:#dcfce7; color:#166534;">✅ Verified</span>' : ''}
+                        </div>
+                        <div class="question">
+                            "${q.question}"
+                        </div>
+                        <div class="meta">
+                            <span>📝 ${q.topic || 'General'}</span>
+                            <span>🎯 ${q.difficulty}</span>
+                            <span>📅 ${q.date}</span>
+                        </div>
+                        <div class="tags">
+                            <span class="tag ${difficultyClass}">${q.difficulty}</span>
+                            ${q.topic ? `<span class="tag">${q.topic}</span>` : ''}
+                            <span class="tag">${q.role}</span>
+                        </div>
+                        ${q.experience ? `<p style="color:#475569; font-size:14px; margin: 8px 0; padding: 10px; background:#f8fafc; border-radius:5px;">💡 ${q.experience}</p>` : ''}
+                        <div class="footer">
+                            <div class="poster">
+                                <div class="avatar">${initial}</div>
+                                <span>
+                                    Posted by <strong>${q.postedBy}</strong>
+                                    ${q.verified ? '✅' : ''}
+                                    Class of ${q.postedYear}
+                                </span>
+                            </div>
+                            <div>
+                                <button class="btn btn-success" onclick="markHelpful(${q.id})" style="padding:5px 15px; font-size:12px;">
+                                    👍 Helpful
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // STATS
+        // ============================================================
+        function updateStats(data) {
+            const companies = new Set(data.map(q => q.company));
+            const contributors = new Set(data.map(q => q.postedBy));
+            const verified = data.filter(q => q.verified).length;
+
+            document.getElementById('totalQuestions').textContent = data.length;
+            document.getElementById('totalCompanies').textContent = companies.size;
+            document.getElementById('totalContributors').textContent = contributors.size;
+            document.getElementById('verifiedQuestions').textContent = verified;
+        }
+
+        // ============================================================
+        // FILTERS
+        // ============================================================
+        function populateCompanyFilter() {
+            const companies = new Set(questions.map(q => q.company));
+            const select = document.getElementById('companyFilter');
+            // Keep the "All Companies" option
+            select.innerHTML = '<option value="">All Companies</option>';
+            companies.forEach(c => {
+                select.innerHTML += `<option value="${c}">${c}</option>`;
+            });
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const company = document.getElementById('companyFilter').value;
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const role = document.getElementById('roleFilter').value;
+
+            const filtered = questions.filter(q => {
+                const matchSearch = !search ||
+                    q.company.toLowerCase().includes(search) ||
+                    q.question.toLowerCase().includes(search) ||
+                    q.topic.toLowerCase().includes(search) ||
+                    q.role.toLowerCase().includes(search);
+                const matchCompany = !company || q.company === company;
+                const matchDifficulty = !difficulty || q.difficulty === difficulty;
+                const matchRole = !role || q.role === role;
+                return matchSearch && matchCompany && matchDifficulty && matchRole;
+            });
+
+            renderQuestions(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('companyFilter').value = '';
+            document.getElementById('difficultyFilter').value = '';
+            document.getElementById('roleFilter').value = '';
+            renderQuestions(questions);
+        }
+
+        // ============================================================
+        // MODAL
+        // ============================================================
+        function openModal() {
+            document.getElementById('postModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('postModal').classList.remove('show');
+        }
+
+        document.getElementById('postModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ============================================================
+        // SUBMIT QUESTION
+        // ============================================================
+        function submitQuestion(e) {
+            e.preventDefault();
+
+            const company = document.getElementById('qCompany').value.trim();
+            const role = document.getElementById('qRole').value.trim();
+            const question = document.getElementById('qQuestion').value.trim();
+            const difficulty = document.getElementById('qDifficulty').value;
+            const topic = document.getElementById('qTopic').value.trim() || 'General';
+            const experience = document.getElementById('qExperience').value.trim();
+            const verified = document.getElementById('qVerified').checked;
+
+            if (!company || !role || !question || !difficulty) {
+                showToast('Please fill in all required fields!', 'error');
+                return;
+            }
+
+            const newQuestion = {
+                id: nextId++,
+                company: company,
+                role: role,
+                question: question,
+                difficulty: difficulty,
+                topic: topic,
+                experience: experience,
+                postedBy: "You (Verified Alumni)",
+                postedYear: "2025",
+                verified: verified,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            questions.unshift(newQuestion);
+            closeModal();
+            document.getElementById('qCompany').value = '';
+            document.getElementById('qRole').value = '';
+            document.getElementById('qQuestion').value = '';
+            document.getElementById('qDifficulty').value = '';
+            document.getElementById('qTopic').value = '';
+            document.getElementById('qExperience').value = '';
+            document.getElementById('qVerified').checked = true;
+            
+            populateCompanyFilter();
+            renderQuestions(questions);
+            showToast('✅ Question submitted successfully!');
+        }
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function markHelpful(id) {
+            showToast('👍 Thanks! This question was marked as helpful.');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast';
+            if (type === 'error') {
+                toast.classList.add('error');
+            }
+            toast.style.display = 'block';
+            clearTimeout(toast.timeout);
+            toast.timeout = setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        populateCompanyFilter();
+        renderQuestions(questions);
+    </script>
+
+</body>
+</html>

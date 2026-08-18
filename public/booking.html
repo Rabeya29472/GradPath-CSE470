@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Slot Booking</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body>
+
+<div class="gradpath-layout">
+
+    <!-- Sidebar -->
+    <aside class="gradpath-sidebar">
+
+        <div class="gradpath-logo">
+            GradPath
+        </div>
+
+        <!-- Student / Alumni Toggle -->
+        <div class="role-toggle">
+
+            <button id="studentToggle"
+                    onclick="setRole('student')">
+                Student
+            </button>
+
+            <button id="alumniToggle"
+                    onclick="setRole('alumni')">
+                Alumni
+            </button>
+
+        </div>
+
+
+        <!-- Student Navigation -->
+        <nav id="studentNav" class="gradpath-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html">
+                Dashboard
+            </a>
+
+            <a href="booking.html" class="active">
+                Interview Booking
+            </a>
+
+            <a href="resume.html">
+                Resume Critique
+            </a>
+
+            <a href="mentor-matchmaker.html">
+                Mentor Matchmaker
+            </a>
+
+            <a href="Company-Specific Question.html">
+                Question Vault
+            </a>
+
+            <a href="Exclusive_Alumni_Referral_Job_Board.html">
+                Referral Job Board
+            </a>
+
+        </nav>
+
+
+        <!-- Alumni Navigation -->
+        <nav id="alumniNav"
+             class="gradpath-nav"
+             style="display: none;">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html">
+                Dashboard
+            </a>
+
+            <a href="mentor-hub.html">
+                Mentor Hub
+            </a>
+
+            <a href="alumni-career-profile-directory.html">
+                Career Directory
+            </a>
+
+            <a href="mentor-review.html">
+                Resume Review
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="gradpath-main">
+
+        <a href="index.html" class="gradpath-back">
+            Back to Dashboard
+        </a>
+
+        <section class="booking-container">
+
+            <h2>Interview Slot Booking Matrix</h2>
+
+            <p class="subtitle">
+                Select an available mentor and reserve a 30-minute interview slot.
+            </p>
+
+
+                        <div class="mentor-selection">
+
+                <label for="studentName">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your full name"
+                >
+
+                <label for="studentId">
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter your student ID"
+                >
+
+                <label for="mentor">
+                    Select Mentor
+                </label>
+
+                <select id="mentor">
+
+                    <option value="">Choose Mentor</option>
+
+                    <option>
+                        Sarah Ahmed (Software Engineer)
+                    </option>
+
+                    <option>
+                        Tanvir Hasan (Data Scientist)
+                    </option>
+
+                    <option>
+                        Nusrat Jahan (UI/UX Designer)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="calendar-card">
+
+                <h3>Available Slots</h3>
+
+                <div class="slot-grid">
+
+
+            
+
+                    <button class="slot">9:00 AM</button>
+                    <button class="slot">9:30 AM</button>
+                    <button class="slot">10:00 AM</button>
+                    <button class="slot">10:30 AM</button>
+                    <button class="slot">11:00 AM</button>
+                    <button class="slot">11:30 AM</button>
+                    <button class="slot">12:00 PM</button>
+                    <button class="slot">12:30 PM</button>
+                    <button class="slot">2:00 PM</button>
+                    <button class="slot">2:30 PM</button>
+                    <button class="slot">3:00 PM</button>
+                    <button class="slot">3:30 PM</button>
+
+                </div>
+
+            </div>
+
+
+            <div class="selected-slot">
+
+                <h3>Selected Slot</h3>
+
+                <p id="selectedText">
+                    No slot selected.
+                </p>
+
+                <button id="bookBtn">
+                    Book Interview
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+<script src="booking.js"></script>
+
+</body>
+</html>

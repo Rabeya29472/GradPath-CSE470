@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GradPath - Interview Sessions</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="app.css">
+
+    <style>
+
+        .sessions-container {
+            max-width: 1100px;
+            margin-top: 25px;
+        }
+
+        .session-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 15px;
+        }
+
+        .session-card:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        }
+
+        .session-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .session-footer {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .session-status {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .grade-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .grade-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            color: #64748b;
+        }
+
+
+        /* ================================
+           Interview Grading Modal
+        ================================ */
+
+        .grading-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.55);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .grading-modal-content {
+            background: white;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+            position: relative;
+        }
+
+        .grading-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .grading-modal-header h2 {
+            margin: 0;
+            color: #0f172a;
+        }
+
+        .close-modal {
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .grading-subtitle {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .assessment-section {
+            display: grid;
+            grid-template-columns: 1fr 100px 40px;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .assessment-section input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .assessment-section input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .remove-section {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            width: 34px;
+            height: 34px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .add-section-btn {
+            margin-top: 8px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .score-summary {
+            margin-top: 24px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .score-summary strong {
+            font-size: 20px;
+            color: #2563eb;
+        }
+
+        .feedback-area {
+            margin-top: 20px;
+        }
+
+        .feedback-area label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .feedback-area textarea {
+            width: 100%;
+            min-height: 100px;
+            resize: vertical;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .cancel-btn {
+            background: white;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .submit-grade-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .submit-grade-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .session-info {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .session-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .assessment-section {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="gradpath-layout">
+
+
+    <!-- Sidebar -->
+
+    <aside class="gradpath-sidebar">
+
+        <div class="gradpath-logo">
+            GradPath
+        </div>
+
+
+        <!-- Student / Alumni Toggle -->
+
+        <div class="role-toggle">
+
+            <button
+                id="studentToggle"
+                onclick="setRole('student')">
+                Student
+            </button>
+
+            <button
+                id="alumniToggle"
+                onclick="setRole('alumni')">
+                Alumni
+            </button>
+
+        </div>
+
+
+        <!-- Student Navigation -->
+
+        <nav
+            id="studentNav"
+            class="gradpath-nav"
+            style="display: none;">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html">
+                Dashboard
+            </a>
+
+            <a href="booking.html">
+                Interview Booking
+            </a>
+
+            <a href="resume.html">
+                Resume Critique
+            </a>
+
+            <a href="mentor-matchmaker.html">
+                Mentor Matchmaker
+            </a>
+
+            <a href="Company-Specific Question.html">
+                Question Vault
+            </a>
+
+            <a href="Exclusive_Alumni_Referral_Job_Board.html">
+                Referral Job Board
+            </a>
+
+        </nav>
+
+
+        <!-- Alumni Navigation -->
+
+        <nav
+            id="alumniNav"
+            class="gradpath-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html">
+                Dashboard
+            </a>
+
+            <a href="mentor-hub.html">
+                Mentor Hub
+            </a>
+
+            <a
+                href="mentor-sessions.html"
+                class="active">
+                Interview Sessions
+            </a>
+
+            <a href="alumni-career-profile-directory.html">
+                Career Directory
+            </a>
+
+            <a href="mentor-review.html">
+                Resume Review
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+
+    <main class="gradpath-main">
+
+        <a
+            href="index.html"
+            class="gradpath-back">
+            Back to Dashboard
+        </a>
+
+
+        <div class="gradpath-header">
+
+            <h1>
+                Interview Sessions
+            </h1>
+
+            <p>
+                Review scheduled mock interviews and evaluate student performance.
+            </p>
+
+        </div>
+
+
+        <section class="sessions-container">
+
+            <div id="sessionList">
+
+                <!-- Sessions will be loaded here -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================================
+     Interview Grading Modal
+================================ -->
+
+<div
+    id="gradingModal"
+    class="grading-modal">
+
+    <div class="grading-modal-content">
+
+
+        <div class="grading-modal-header">
+
+            <h2>
+                Interview Evaluation
+            </h2>
+
+            <button
+                class="close-modal"
+                onclick="closeGrading()">
+                ×
+            </button>
+
+        </div>
+
+
+        <p class="grading-subtitle">
+            Evaluate the student's performance during the mock interview.
+        </p>
+
+
+        <div id="gradingStudentInfo"></div>
+
+
+        <h3>
+            Assessment Sections
+        </h3>
+
+        <p class="grading-subtitle">
+            Add any criteria you want to evaluate. Each section is scored out of 10.
+        </p>
+
+
+        <div id="assessmentSections">
+
+            <div class="assessment-section">
+
+                <input
+                    type="text"
+                    class="criterion"
+                    placeholder="e.g. Technical Knowledge">
+
+                <input
+                    type="number"
+                    class="section-score"
+                    min="0"
+                    max="10"
+                    value="0"
+                    oninput="calculateOverallScore()">
+
+                <button
+                    class="remove-section"
+                    onclick="removeSection(this)">
+                    ×
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="add-section-btn"
+            onclick="addAssessmentSection()">
+            + Add Assessment Section
+        </button>
+
+
+        <div class="score-summary">
+
+            <div>
+                Overall Interview Score
+            </div>
+
+            <strong id="overallScore">
+                0.0 / 10
+            </strong>
+
+        </div>
+
+
+        <div class="feedback-area">
+
+            <label for="overallFeedback">
+                Overall Feedback
+            </label>
+
+            <textarea
+                id="overallFeedback"
+                placeholder="Write feedback for the student..."></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeGrading()">
+                Cancel
+            </button>
+
+            <button
+                class="submit-grade-btn"
+                onclick="submitEvaluation()">
+                Submit Evaluation
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="app.js"></script>
+
+
+<script>
+
+    function loadSessions() {
+
+        fetch("/api/bookings")
+
+            .then(response => response.json())
+
+            .then(bookings => {
+
+                const container =
+                    document.getElementById("sessionList");
+
+
+                if (!bookings || bookings.length === 0) {
+
+                    container.innerHTML = `
+                        <div class="empty-state">
+
+                            <h3>
+                                No Interview Sessions
+                            </h3>
+
+                            <p>
+                                There are currently no booked interview sessions.
+                            </p>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                let html = "";
+
+
+                bookings.forEach(booking => {
+
+                    html += `
+                        <div class="session-card">
+
+                            <div class="session-info">
+
+                                <div>
+
+                                    <div class="info-label">
+                                        Student
+                                    </div>
+
+                                    <div class="info-value">
+                                        ${booking.studentName || "Not Provided"}
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="info-label">
+                                        Student ID
+                                    </div>
+
+                                    <div class="info-value">
+                                        ${booking.studentId || "Not Provided"}
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="info-label">
+                                        Mentor
+                                    </div>
+
+                                    <div class="info-value">
+                                        ${booking.mentor}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="session-footer">
+
+                                <div class="session-status">
+
+                                    Interview Time:
+                                    <strong>
+                                        ${booking.time}
+                                    </strong>
+
+                                </div>
+
+
+                                <button
+                                    class="grade-btn"
+                                    onclick="openGrading(${booking.id})">
+
+                                    Grade Interview
+
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                });
+
+
+                container.innerHTML = html;
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                document.getElementById("sessionList").innerHTML = `
+                    <div class="empty-state">
+
+                        <h3>
+                            Unable to Load Sessions
+                        </h3>
+
+                        <p>
+                            Please make sure the server is running.
+                        </p>
+
+                    </div>
+                `;
+
+            });
+
+    }
+
+
+    let currentBookingId = null;
+
+
+    function openGrading(bookingId) {
+
+        currentBookingId = bookingId;
+
+
+        fetch("/api/bookings")
+
+            .then(response => response.json())
+
+            .then(bookings => {
+
+                const booking =
+                    bookings.find(
+                        item => item.id == bookingId
+                    );
+
+
+                if (!booking) {
+
+                    alert(
+                        "Interview session not found."
+                    );
+
+                    return;
+                }
+
+
+                document.getElementById(
+                    "gradingStudentInfo"
+                ).innerHTML = `
+
+                    <div
+                        class="session-card"
+                        style="margin-bottom: 20px;">
+
+                        <div class="session-info">
+
+
+                            <div>
+
+                                <div class="info-label">
+                                    Student
+                                </div>
+
+                                <div class="info-value">
+                                    ${booking.studentName || "Not Provided"}
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="info-label">
+                                    Student ID
+                                </div>
+
+                                <div class="info-value">
+                                    ${booking.studentId || "Not Provided"}
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="info-label">
+                                    Interview Time
+                                </div>
+
+                                <div class="info-value">
+                                    ${booking.time}
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                document.getElementById(
+                    "gradingModal"
+                ).style.display = "flex";
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "Unable to load interview information."
+                );
+
+            });
+
+    }
+
+
+    function closeGrading() {
+
+        document.getElementById(
+            "gradingModal"
+        ).style.display = "none";
+
+    }
+
+
+    function addAssessmentSection() {
+
+        const container =
+            document.getElementById(
+                "assessmentSections"
+            );
+
+
+        const section =
+            document.createElement("div");
+
+
+        section.className =
+            "assessment-section";
+
+
+        section.innerHTML = `
+
+            <input
+                type="text"
+                class="criterion"
+                placeholder="Assessment criterion">
+
+            <input
+                type="number"
+                class="section-score"
+                min="0"
+                max="10"
+                value="0"
+                oninput="calculateOverallScore()">
+
+            <button
+                class="remove-section"
+                onclick="removeSection(this)">
+                ×
+            </button>
+
+        `;
+
+
+        container.appendChild(section);
+
+    }
+
+
+    function removeSection(button) {
+
+        const sections =
+            document.querySelectorAll(
+                ".assessment-section"
+            );
+
+
+        if (sections.length <= 1) {
+
+            alert(
+                "At least one assessment section is required."
+            );
+
+            return;
+        }
+
+
+        button.parentElement.remove();
+
+
+        calculateOverallScore();
+
+    }
+
+
+    function calculateOverallScore() {
+
+        const scores =
+            document.querySelectorAll(
+                ".section-score"
+            );
+
+
+        if (scores.length === 0) {
+
+            document.getElementById(
+                "overallScore"
+            ).innerText = "0.0 / 10";
+
+            return;
+        }
+
+
+        let total = 0;
+
+
+        scores.forEach(scoreInput => {
+
+            let score =
+                parseFloat(
+                    scoreInput.value
+                ) || 0;
+
+
+            if (score < 0) {
+                score = 0;
+            }
+
+
+            if (score > 10) {
+                score = 10;
+            }
+
+
+            total += score;
+
+        });
+
+
+        const average =
+            total / scores.length;
+
+
+        document.getElementById(
+            "overallScore"
+        ).innerText =
+            average.toFixed(1) + " / 10";
+
+    }
+
+
+    function submitEvaluation() {
+
+        const bookingId =
+            currentBookingId;
+
+
+        if (!bookingId) {
+
+            alert(
+                "Interview session not found."
+            );
+
+            return;
+        }
+
+
+        const sectionRows =
+            document.querySelectorAll(
+                ".assessment-section"
+            );
+
+
+        const sections = [];
+
+
+        sectionRows.forEach(row => {
+
+            const inputs =
+                row.querySelectorAll("input");
+
+
+            const sectionName =
+                inputs[0].value.trim();
+
+
+            const score =
+                Number(inputs[1].value);
+
+
+            if (sectionName !== "") {
+
+                sections.push({
+
+                    name: sectionName,
+
+                    score: score
+
+                });
+
+            }
+
+        });
+
+
+        if (sections.length === 0) {
+
+            alert(
+                "Please add at least one assessment section."
+            );
+
+            return;
+        }
+
+
+        // Validate scores
+
+        for (const section of sections) {
+
+            if (
+                isNaN(section.score) ||
+                section.score < 0 ||
+                section.score > 10
+            ) {
+
+                alert(
+                    "Each assessment score must be between 0 and 10."
+                );
+
+                return;
+            }
+
+        }
+
+
+        const feedback =
+            document.getElementById(
+                "overallFeedback"
+            ).value.trim();
+
+
+        fetch(
+            "/api/interview-evaluation",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    bookingId: bookingId,
+
+                    sections: sections,
+
+                    feedback: feedback
+
+                })
+
+            }
+        )
+
+            .then(response => {
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                if (!data.success) {
+
+                    alert(data.message);
+
+                    return;
+                }
+
+
+                alert(
+                    "Interview evaluation submitted successfully!\n\n" +
+                    "Overall Score: " +
+                    data.overallScore +
+                    " / 10"
+                );
+
+
+                closeGrading();
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "Failed to submit the interview evaluation."
+                );
+
+            });
+
+    }
+
+
+    window.addEventListener(
+        "load",
+        loadSessions
+    );
+
+</script>
+
+
+</body>
+
+</html>
