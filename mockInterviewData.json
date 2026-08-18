@@ -1,0 +1,199 @@
+[
+  {
+    "studentId": "22201594",
+    "studentName": "Adnan Sami",
+    "major": "Computer Science & Engineering (CSE)",
+    "targetRole": "Full Stack / Backend Software Engineer",
+    "resumeScore": 85,
+    "mockInterviews": [
+      {
+        "interviewId": "MOCK-101",
+        "date": "2026-07-15",
+        "mentor": "Sarah Ahmed",
+        "mentorRole": "Senior SWE at Google",
+        "interviewType": "Technical & Algorithmic Problem Solving",
+        "technicalScore": 76,
+        "communicationScore": 80,
+        "confidenceScore": 72,
+        "overallScore": 76,
+        "feedback": "Good understanding of core array and graph algorithms. Articulate in explaining code logic. Work on optimizing space complexity and edge case analysis under pressure.",
+        "strengths": [
+          "Data Structures & Algorithms",
+          "Clean & Readable Code",
+          "Logical Decomposition"
+        ],
+        "areasToImprove": [
+          "Dynamic Programming Optimization",
+          "Explaining Time Complexity Out Loud"
+        ]
+      },
+      {
+        "interviewId": "MOCK-102",
+        "date": "2026-08-02",
+        "mentor": "Rakib Hasan",
+        "mentorRole": "Backend Software Engineer at bKash",
+        "interviewType": "System Architecture & Backend APIs",
+        "technicalScore": 86,
+        "communicationScore": 84,
+        "confidenceScore": 82,
+        "overallScore": 84,
+        "feedback": "Major improvement in microservice concepts, database schema indexing, and REST API conventions. Confident handling of database locking and concurrency questions.",
+        "strengths": [
+          "RESTful Architecture",
+          "Database Indexing & Query Tuning",
+          "Structured Response Flow"
+        ],
+        "areasToImprove": [
+          "Distributed Caching (Redis/Memcached)",
+          "Rate Limiting Strategies"
+        ]
+      },
+      {
+        "interviewId": "MOCK-103",
+        "date": "2026-08-14",
+        "mentor": "Ayan Khan",
+        "mentorRole": "Cloud Solutions Architect at Microsoft",
+        "interviewType": "Cloud Infrastructure & Full Stack System Design",
+        "technicalScore": 92,
+        "communicationScore": 88,
+        "confidenceScore": 90,
+        "overallScore": 90,
+        "feedback": "Outstanding performance! Demonstrated deep grasp of container orchestration (Docker/K8s), CI/CD pipelines, and cloud scalability trade-offs. Ready for technical interviews.",
+        "strengths": [
+          "Scalable System Architecture",
+          "Cloud & Container Concepts",
+          "High Interview Presence & Poise"
+        ],
+        "areasToImprove": [
+          "Behavioral STAR Technique Delivery",
+          "Succinct Elevator Pitch"
+        ]
+      }
+    ],
+    "preparationProgress": {
+      "technicalSkills": 88,
+      "communication": 84,
+      "problemSolving": 87,
+      "confidence": 81,
+      "resumeReadiness": 85
+    },
+    "recommendedNextStep": "Schedule a final mock behavioral interview focusing on leadership & STAR method scenarios before upcoming tech campus placements."
+  },
+  {
+    "studentId": "24241140",
+    "studentName": "Rabeya Bashar",
+    "major": "Computer Science & Engineering (CSE)",
+    "targetRole": "Data Analyst / ML Associate",
+    "resumeScore": 80,
+    "mockInterviews": [
+      {
+        "interviewId": "MOCK-201",
+        "date": "2026-08-01",
+        "mentor": "Tanvir Hasan",
+        "mentorRole": "Lead Data Scientist",
+        "interviewType": "Data Analytics & SQL Mastery",
+        "technicalScore": 74,
+        "communicationScore": 78,
+        "confidenceScore": 72,
+        "overallScore": 75,
+        "feedback": "Solid SQL window functions and pandas manipulation. Keep practicing explaining business metrics clearly and structuring analytics findings.",
+        "strengths": [
+          "Complex SQL Joins & CTEs",
+          "Data Wrangling with Python",
+          "Inquisitive Mindset"
+        ],
+        "areasToImprove": [
+          "Live Coding Speed",
+          "Statistical Hypothesis Testing"
+        ]
+      },
+      {
+        "interviewId": "MOCK-202",
+        "date": "2026-08-12",
+        "mentor": "Nusrat Jahan",
+        "mentorRole": "UI/UX & Product Specialist",
+        "interviewType": "Product Analytics & Dashboard Design",
+        "technicalScore": 82,
+        "communicationScore": 86,
+        "confidenceScore": 84,
+        "overallScore": 84,
+        "feedback": "Excellent visualization insights. Strong communication and ability to tie data trends back to user experience decisions.",
+        "strengths": [
+          "Product Sense & KPIs",
+          "Clear Data Storytelling",
+          "Dashboard Usability"
+        ],
+        "areasToImprove": [
+          "A/B Testing Statistical Rigor",
+          "Executive Summary Formulation"
+        ]
+      }
+    ],
+    "preparationProgress": {
+      "technicalSkills": 78,
+      "communication": 82,
+      "problemSolving": 80,
+      "confidence": 78,
+      "resumeReadiness": 80
+    },
+    "recommendedNextStep": "Complete 2 more timed SQL & data modeling problem sets, and prepare 3 STAR stories highlighting past analytics projects."
+  },
+  {
+    "studentId": "22201628",
+    "studentName": "Rakib Hasan Jr.",
+    "major": "Computer Science & Engineering (CSE)",
+    "targetRole": "Backend Systems Engineer",
+    "resumeScore": 75,
+    "mockInterviews": [
+      {
+        "interviewId": "MOCK-301",
+        "date": "2026-07-28",
+        "mentor": "Tanvir Islam",
+        "mentorRole": "Embedded Systems Engineer at Samsung R&D",
+        "interviewType": "Low-level Systems & Concurrency",
+        "technicalScore": 70,
+        "communicationScore": 74,
+        "confidenceScore": 68,
+        "overallScore": 71,
+        "feedback": "Good understanding of memory management and threads. Practice explaining complex concepts in simpler steps.",
+        "strengths": [
+          "Memory & Pointer Manipulation",
+          "Thread Synchronization Basics"
+        ],
+        "areasToImprove": [
+          "Communication Clarity",
+          "Deadlock Prevention Scenarios"
+        ]
+      },
+      {
+        "interviewId": "MOCK-302",
+        "date": "2026-08-10",
+        "mentor": "Farhana Yasmin",
+        "mentorRole": "Full Stack Lead at Brain Station 23",
+        "interviewType": "API Architecture & Database Design",
+        "technicalScore": 78,
+        "communicationScore": 80,
+        "confidenceScore": 76,
+        "overallScore": 78,
+        "feedback": "Good improvement in backend API design and error handling. More confidence shown in design choices.",
+        "strengths": [
+          "Database Normalization",
+          "Error Handling Middleware",
+          "Code Readability"
+        ],
+        "areasToImprove": [
+          "Asynchronous Event Queues",
+          "Live Debugging Practice"
+        ]
+      }
+    ],
+    "preparationProgress": {
+      "technicalSkills": 74,
+      "communication": 77,
+      "problemSolving": 75,
+      "confidence": 72,
+      "resumeReadiness": 75
+    },
+    "recommendedNextStep": "Focus on asynchronous architecture and message broker fundamentals before the next mock interview."
+  }
+]
