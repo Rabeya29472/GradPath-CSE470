@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradPath - Interview Readiness Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #0f172a;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --border-color: #e2e8f0;
+            --success-bg: #dcfce7;
+            --success-text: #166534;
+            --warning-bg: #fef3c7;
+            --warning-text: #92400e;
+            --info-bg: #e0f2fe;
+            --info-text: #0369a1;
+            --badge-blue-bg: #dbeafe;
+            --badge-blue-text: #1e40af;
+            --badge-purple-bg: #f3e8ff;
+            --badge-purple-text: #6b21a8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-md: 0 4px 12px rgba(15,23,42,0.06);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-group-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin: 15px 0 8px 12px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        .nav-btn.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Workspace Area */
+        .workspace {
+            flex: 1;
+            padding: 40px 50px;
+            overflow-y: auto;
+            max-width: 1400px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-size: 0.95rem;
+            max-width: 650px;
+            line-height: 1.5;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .student-select {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: #ffffff;
+            color: var(--text-dark);
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .student-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: var(--text-dark);
+            border-color: var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        /* Hero Readiness Card */
+        .hero-readiness {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 30px 36px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-info h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hero-info p {
+            font-size: 0.95rem;
+            color: #bfdbfe;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+
+        .hero-student-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .hero-score-box {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius-lg);
+            padding: 20px 28px;
+            text-align: center;
+            min-width: 220px;
+        }
+
+        .hero-score-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #e0f2fe;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .hero-score-value {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #ffffff;
+        }
+
+        .hero-status-pill {
+            display: inline-block;
+            background: var(--success-bg);
+            color: var(--success-text);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-info .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-info .stat-value {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .stat-info .stat-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .full-grid-col {
+            grid-column: span 2;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 14px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Progress Bar Elements */
+        .progress-item {
+            margin-bottom: 18px;
+        }
+
+        .progress-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .progress-bar-bg {
+            background: #f1f5f9;
+            border-radius: 20px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: var(--primary);
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.6s ease;
+        }
+
+        .progress-bar-fill.success {
+            background: #10b981;
+        }
+
+        .progress-bar-fill.purple {
+            background: #8b5cf6;
+        }
+
+        .progress-bar-fill.amber {
+            background: #f59e0b;
+        }
+
+        /* Interview History Timeline */
+        .interview-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .interview-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            transition: border-color 0.15s ease;
+        }
+
+        .interview-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .interview-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .interview-mentor {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        .interview-role {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .interview-score-badge {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--primary);
+        }
+
+        .score-pill-row {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .score-pill {
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .score-pill strong {
+            color: var(--text-dark);
+        }
+
+        .interview-feedback {
+            font-size: 0.88rem;
+            color: #475569;
+            line-height: 1.5;
+            background: #ffffff;
+            border-left: 3px solid var(--primary);
+            padding: 10px 14px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 10px;
+        }
+
+        /* Strengths & Areas to Improve */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .strength-tag {
+            background: var(--success-bg);
+            color: var(--success-text);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .improve-tag {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Next Steps Box */
+        .recommendation-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .recommendation-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .recommendation-text h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 4px;
+        }
+
+        .recommendation-text p {
+            font-size: 0.92rem;
+            color: #1e3a8a;
+            line-height: 1.5;
+        }
+
+        /* Loading Spinner */
+        .loading-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 20px;
+            }
+            .workspace {
+                padding: 24px;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-grid-col {
+                grid-column: span 1;
+            }
+            .hero-readiness {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">🚀 GradPath Portal</div>
+        
+        <div class="nav-group-title">Main Portal</div>
+        <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+        <a href="mock-interview-readiness.html" class="nav-btn active">📊 Interview Readiness</a>
+        <a href="alumni-career-profile-directory.html" class="nav-btn">🎓 Alumni Career Directory</a>
+        <a href="Exclusive_Alumni_Referral_Job_Board.html" class="nav-btn">💼 Referral Job Board</a>
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+        <a href="booking.html" class="nav-btn">📅 Mock Interview Booking</a>
+        
+        <div class="nav-group-title">Career Tools</div>
+        <a href="question-vault.html" class="nav-btn">📚 Question Vault</a>
+        <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator</a>
+        <a href="mentor-review.html" class="nav-btn">📝 Resume Reviewer</a>
+        <a href="verify.html" class="nav-btn">🛡️ Verification Portal</a>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="workspace">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title">
+                <h1>Interview Readiness</h1>
+                <p>Student Mock-Interview Readiness Progress Tracker. Real-time metrics calculated from mock interview performances and verified resume reviews.</p>
+            </div>
+            <div class="header-actions">
+                <label for="studentSelector" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Student:</label>
+                <select id="studentSelector" class="student-select" onchange="handleStudentChange()">
+                    <!-- Populated dynamically from API -->
+                </select>
+                <button class="btn btn-outline" onclick="loadReadinessData()">↻ Refresh</button>
+            </div>
+        </header>
+
+        <!-- Loading State -->
+        <div id="loadingIndicator" class="loading-state">
+            <div class="spinner"></div>
+            <p>Fetching interview readiness metrics from API...</p>
+        </div>
+
+        <!-- Dashboard Content Container -->
+        <div id="dashboardContent" style="display: none;">
+            
+            <!-- Hero Overall Readiness Score Card -->
+            <section class="hero-readiness">
+                <div class="hero-info">
+                    <h2>🎯 Student Interview Readiness Score</h2>
+                    <p>Weighted composite benchmark combining <strong>60% Mock Interview Performance Average</strong> and <strong>40% Verified Resume Score</strong>.</p>
+                    <div class="hero-student-tag" id="heroStudentInfo">Student ID: ...</div>
+                </div>
+                <div class="hero-score-box">
+                    <div class="hero-score-label">Overall Readiness</div>
+                    <div class="hero-score-value" id="overallReadinessValue">0%</div>
+                    <div class="hero-status-pill" id="overallStatusBadge">Evaluating...</div>
+                </div>
+            </section>
+
+            <!-- Key Metrics Stats Grid -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Interviews Completed</div>
+                        <div class="stat-value" id="statInterviewsCompleted">0</div>
+                        <div class="stat-sub">Mock Sessions</div>
+                    </div>
+                    <div class="stat-icon">📅</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Avg Interview Score</div>
+                        <div class="stat-value" id="statAvgInterviewScore">0%</div>
+                        <div class="stat-sub">Across All Sessions (60% weight)</div>
+                    </div>
+                    <div class="stat-icon">📈</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Resume Score</div>
+                        <div class="stat-value" id="statResumeScore">0%</div>
+                        <div class="stat-sub">Reviewer Evaluation (40% weight)</div>
+                    </div>
+                    <div class="stat-icon">📝</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Target Career Goal</div>
+                        <div class="stat-value" style="font-size: 1.15rem; margin-top: 4px;" id="statTargetRole">Software Engineer</div>
+                        <div class="stat-sub" id="statMajorName">CSE</div>
+                    </div>
+                    <div class="stat-icon">💼</div>
+                </div>
+            </section>
+
+            <!-- Content Grid (Preparation Progress + Recommended Next Step) -->
+            <div class="content-grid">
+                
+                <!-- Preparation Progress Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📊 Preparation Progress</h3>
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Core Competencies</span>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="progress-label-row">
+                            <span>Technical Problem-Solving</span>
+                            <span id="labelTechnical">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="barTechnical" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="progress-label-row">
+                            <span>Communication & Articulation</span>
+                            <span id="labelCommunication">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill purple" id="barCommunication" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="progress-label-row">
+                            <span>Confidence & Poise</span>
+                            <span id="labelConfidence">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill success" id="barConfidence" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="progress-label-row">
+                            <span>Resume & Profile Quality</span>
+                            <span id="labelResumeProgress">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill amber" id="barResumeProgress" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strengths & Areas to Improve Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">💡 Performance Insights</h3>
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Feedback Aggregation</span>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-light); margin-bottom: 10px;">🌟 Strengths Identified</h4>
+                        <div class="tags-container" id="strengthsContainer">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-light); margin-bottom: 10px;">⚠️ Areas to Improve</h4>
+                        <div class="tags-container" id="areasToImproveContainer">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Next Step Card (Full Width) -->
+                <div class="card full-grid-col">
+                    <div class="card-header">
+                        <h3 class="card-title">🚀 Recommended Next Step</h3>
+                        <a href="booking.html" class="btn btn-primary" style="padding: 6px 14px; font-size: 0.85rem;">Book Next Slot →</a>
+                    </div>
+                    <div class="recommendation-box">
+                        <div class="recommendation-icon">💡</div>
+                        <div class="recommendation-text">
+                            <h4>Personalized Mentor Guidance</h4>
+                            <p id="recommendationText">Loading recommended next action...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mock Interview Score Progress (Timeline / History) (Full Width) -->
+                <div class="card full-grid-col">
+                    <div class="card-header">
+                        <h3 class="card-title">🗓️ Mock Interview Score Progress</h3>
+                        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;" id="historyCountBadge">0 sessions recorded</span>
+                    </div>
+
+                    <div class="interview-list" id="interviewHistoryList">
+                        <!-- Populated dynamically from API -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // State
+        let allStudentsData = [];
+        let selectedStudent = null;
+
+        // Fetch data from API on load
+        async function loadReadinessData() {
+            try {
+                showLoading(true);
+                
+                // Fetch from existing API endpoint with fallback to json file
+                let response;
+                try {
+                    response = await fetch('/api/mock-interviews');
+                    if (!response.ok) throw new Error('API route not available');
+                } catch (e) {
+                    response = await fetch('/mockInterviewData.json');
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch mock interview data.');
+                }
+
+                allStudentsData = await response.json();
+                
+                if (!allStudentsData || allStudentsData.length === 0) {
+                    throw new Error('No student interview records found.');
+                }
+
+                populateStudentDropdown();
+                renderStudentData();
+
+            } catch (err) {
+                console.error('Data load error:', err);
+                document.getElementById('loadingIndicator').innerHTML = `
+                    <div style="color: #dc2626; padding: 20px;">
+                        ⚠️ <strong>Failed to load readiness data from API.</strong><br>
+                        <span style="font-size: 0.85rem; color: #64748b;">${err.message}</span><br><br>
+                        <button class="btn btn-outline" onclick="loadReadinessData()">Retry Fetch</button>
+                    </div>
+                `;
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showLoading(isLoading) {
+            const loader = document.getElementById('loadingIndicator');
+            const dashboard = document.getElementById('dashboardContent');
+            if (isLoading) {
+                loader.style.display = 'block';
+                dashboard.style.display = 'none';
+            } else {
+                loader.style.display = 'none';
+                dashboard.style.display = 'block';
+            }
+        }
+
+        // Populate student selector
+        function populateStudentDropdown() {
+            const select = document.getElementById('studentSelector');
+            const currentVal = select.value;
+            select.innerHTML = '';
+
+            allStudentsData.forEach((student, index) => {
+                const opt = document.createElement('option');
+                opt.value = student.studentId;
+                opt.textContent = `${student.studentName} (${student.studentId})`;
+                select.appendChild(opt);
+            });
+
+            if (currentVal && allStudentsData.some(s => s.studentId === currentVal)) {
+                select.value = currentVal;
+            } else {
+                select.value = allStudentsData[0].studentId;
+            }
+
+            selectedStudent = allStudentsData.find(s => s.studentId === select.value) || allStudentsData[0];
+        }
+
+        function handleStudentChange() {
+            const select = document.getElementById('studentSelector');
+            selectedStudent = allStudentsData.find(s => s.studentId === select.value) || allStudentsData[0];
+            renderStudentData();
+        }
+
+        // Main Dynamic Calculation & Rendering
+        function renderStudentData() {
+            if (!selectedStudent) return;
+
+            const student = selectedStudent;
+            const interviews = Array.isArray(student.mockInterviews) ? student.mockInterviews : [];
+
+            // 1. Calculate Mock Interview Average dynamically
+            let mockAverage = 0;
+            if (interviews.length > 0) {
+                const totalScore = interviews.reduce((sum, item) => sum + (Number(item.overallScore) || 0), 0);
+                mockAverage = totalScore / interviews.length;
+            }
+
+            const resumeScore = Number(student.resumeScore) || 0;
+
+            // 2. READINESS CALCULATION (Dynamic formula):
+            // Overall Readiness = 60% Mock Interview Average + 40% Resume Score
+            const overallReadiness = Math.round((mockAverage * 0.60) + (resumeScore * 0.40));
+
+            // Determine status badge
+            let statusText = "Needs Practice";
+            let statusBg = "#fee2e2";
+            let statusColor = "#991b1b";
+
+            if (overallReadiness >= 80) {
+                statusText = "🌟 Interview-Ready";
+                statusBg = "#dcfce7";
+                statusColor = "#166534";
+            } else if (overallReadiness >= 70) {
+                statusText = "⚡ On Track";
+                statusBg = "#dbeafe";
+                statusColor = "#1e40af";
+            } else if (overallReadiness >= 50) {
+                statusText = "🔄 Developing";
+                statusBg = "#fef3c7";
+                statusColor = "#92400e";
+            }
+
+            // Update Hero Card
+            document.getElementById('overallReadinessValue').textContent = `${overallReadiness}%`;
+            document.getElementById('heroStudentInfo').textContent = `${student.studentName} | Student ID: ${student.studentId} | ${student.major || 'CSE'}`;
+            
+            const badge = document.getElementById('overallStatusBadge');
+            badge.textContent = statusText;
+            badge.style.background = statusBg;
+            badge.style.color = statusColor;
+
+            // Update Key Metric Cards
+            document.getElementById('statInterviewsCompleted').textContent = interviews.length;
+            document.getElementById('statAvgInterviewScore').textContent = `${mockAverage ? mockAverage.toFixed(1) : 0}%`;
+            document.getElementById('statResumeScore').textContent = `${resumeScore}%`;
+            document.getElementById('statTargetRole').textContent = student.targetRole || 'Software Engineer';
+            document.getElementById('statMajorName').textContent = student.major || 'CSE';
+
+            // Update Preparation Progress Bars
+            const prep = student.preparationProgress || {};
+            const techScore = prep.technicalSkills || (interviews.length ? Math.round(interviews.reduce((a, b) => a + b.technicalScore, 0) / interviews.length) : 0);
+            const commScore = prep.communication || (interviews.length ? Math.round(interviews.reduce((a, b) => a + b.communicationScore, 0) / interviews.length) : 0);
+            const confScore = prep.confidence || (interviews.length ? Math.round(interviews.reduce((a, b) => a + b.confidenceScore, 0) / interviews.length) : 0);
+
+            document.getElementById('labelTechnical').textContent = `${techScore}%`;
+            document.getElementById('barTechnical').style.width = `${techScore}%`;
+
+            document.getElementById('labelCommunication').textContent = `${commScore}%`;
+            document.getElementById('barCommunication').style.width = `${commScore}%`;
+
+            document.getElementById('labelConfidence').textContent = `${confScore}%`;
+            document.getElementById('barConfidence').style.width = `${confScore}%`;
+
+            document.getElementById('labelResumeProgress').textContent = `${resumeScore}%`;
+            document.getElementById('barResumeProgress').style.width = `${resumeScore}%`;
+
+            // Aggregate Strengths & Areas to Improve
+            const strengthsSet = new Set();
+            const improveSet = new Set();
+
+            interviews.forEach(inv => {
+                if (Array.isArray(inv.strengths)) inv.strengths.forEach(s => strengthsSet.add(s));
+                if (Array.isArray(inv.areasToImprove)) inv.areasToImprove.forEach(i => improveSet.add(i));
+            });
+
+            const strengthsContainer = document.getElementById('strengthsContainer');
+            strengthsContainer.innerHTML = '';
+            if (strengthsSet.size > 0) {
+                strengthsSet.forEach(s => {
+                    const tag = document.createElement('span');
+                    tag.className = 'strength-tag';
+                    tag.innerHTML = `✓ ${escapeHtml(s)}`;
+                    strengthsContainer.appendChild(tag);
+                });
+            } else {
+                strengthsContainer.innerHTML = '<span style="font-size:0.85rem; color:var(--text-light);">No strengths recorded yet</span>';
+            }
+
+            const areasContainer = document.getElementById('areasToImproveContainer');
+            areasContainer.innerHTML = '';
+            if (improveSet.size > 0) {
+                improveSet.forEach(i => {
+                    const tag = document.createElement('span');
+                    tag.className = 'improve-tag';
+                    tag.innerHTML = `▲ ${escapeHtml(i)}`;
+                    areasContainer.appendChild(tag);
+                });
+            } else {
+                areasContainer.innerHTML = '<span style="font-size:0.85rem; color:var(--text-light);">No areas recorded</span>';
+            }
+
+            // Recommended Next Step
+            document.getElementById('recommendationText').textContent = student.recommendedNextStep || 
+                "Book another mock session to continue refining technical articulation and system design responses.";
+
+            // Render Interview History Progress Timeline
+            document.getElementById('historyCountBadge').textContent = `${interviews.length} session${interviews.length === 1 ? '' : 's'} recorded`;
+            const historyList = document.getElementById('interviewHistoryList');
+            historyList.innerHTML = '';
+
+            if (interviews.length === 0) {
+                historyList.innerHTML = `
+                    <div style="text-align:center; padding: 30px; color: var(--text-light);">
+                        No mock interviews completed yet. <a href="booking.html" style="color:var(--primary); font-weight:600;">Book a mock interview slot</a> to start tracking your progress!
+                    </div>
+                `;
+            } else {
+                interviews.forEach((inv, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'interview-card';
+                    card.innerHTML = `
+                        <div class="interview-card-top">
+                            <div>
+                                <div class="interview-mentor">
+                                    👨‍🏫 ${escapeHtml(inv.mentor)} <span style="font-size:0.8rem; font-weight:normal; color:var(--text-light);">(${escapeHtml(inv.mentorRole || 'Mentor')})</span>
+                                </div>
+                                <div class="interview-role">
+                                    🎯 ${escapeHtml(inv.interviewType || inv.role || 'Mock Interview')} • <span style="color:var(--text-muted); font-size:0.8rem;">${escapeHtml(inv.date)}</span>
+                                </div>
+                            </div>
+                            <div class="interview-score-badge">
+                                Score: ${inv.overallScore}%
+                            </div>
+                        </div>
+
+                        <div class="score-pill-row">
+                            <span class="score-pill">Technical: <strong>${inv.technicalScore}%</strong></span>
+                            <span class="score-pill">Communication: <strong>${inv.communicationScore}%</strong></span>
+                            <span class="score-pill">Confidence: <strong>${inv.confidenceScore}%</strong></span>
+                            <span class="score-pill">Interview ID: <strong>${escapeHtml(inv.interviewId)}</strong></span>
+                        </div>
+
+                        <div class="interview-feedback">
+                            <strong>Mentor Feedback:</strong> "${escapeHtml(inv.feedback)}"
+                        </div>
+                    `;
+                    historyList.appendChild(card);
+                });
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReadinessData();
+        });
+    </script>
+</body>
+</html>

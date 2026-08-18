@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradPath - Ask an Alumnus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #0f172a;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --border-color: #e2e8f0;
+            --success-bg: #dcfce7;
+            --success-text: #166534;
+            --badge-blue-bg: #dbeafe;
+            --badge-blue-text: #1e40af;
+            --badge-purple-bg: #f3e8ff;
+            --badge-purple-text: #6b21a8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-md: 0 4px 12px rgba(15,23,42,0.06);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-group-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin: 15px 0 8px 12px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        .nav-btn.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Workspace Area */
+        .workspace {
+            flex: 1;
+            padding: 40px 50px;
+            overflow-y: auto;
+            max-width: 1400px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-size: 0.95rem;
+            max-width: 680px;
+            line-height: 1.5;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: var(--text-dark);
+            border-color: var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.84rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Forum Filter Card */
+        .filter-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-box-wrap {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #ffffff;
+            transition: all 0.15s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        /* Category Filter Pills */
+        .category-filters-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .category-filter-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-light);
+            margin-right: 6px;
+        }
+
+        .category-pill {
+            background: #f1f5f9;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .category-pill:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        .category-pill.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* Results Control Bar */
+        .results-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .results-count {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .results-count strong {
+            color: var(--text-dark);
+        }
+
+        /* Discussion / Question Card */
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .question-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .question-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+            color: var(--text-light);
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: var(--badge-blue-bg);
+            color: var(--badge-blue-text);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .category-badge.higher-studies { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .category-badge.skills { background: #fef3c7; color: #92400e; }
+        .category-badge.interview { background: #e0f2fe; color: #0369a1; }
+        .category-badge.industry { background: #fae8ff; color: #86198f; }
+
+        .question-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .question-description {
+            font-size: 0.93rem;
+            color: #475569;
+            line-height: 1.55;
+            margin-bottom: 18px;
+        }
+
+        /* Verified Alumni Response Preview Box */
+        .alumni-reply-preview {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+        }
+
+        .alumni-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .alumni-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .alumni-role-tag {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .badge-verified {
+            background: var(--success-bg);
+            color: var(--success-text);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .alumni-reply-text {
+            font-size: 0.9rem;
+            color: #334155;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .question-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 14px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .replies-count-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-color);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 20px;
+        }
+
+        /* Loading Spinner */
+        .loading-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modals */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-backdrop.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: modalSlide 0.2s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(15px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 22px 26px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-dark);
+            background: #f1f5f9;
+        }
+
+        .modal-body {
+            padding: 26px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #ffffff;
+            box-sizing: border-box;
+            transition: all 0.15s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            padding: 18px 26px;
+            border-top: 1px solid var(--border-color);
+            background: #f8fafc;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            border-bottom-left-radius: var(--radius-lg);
+            border-bottom-right-radius: var(--radius-lg);
+        }
+
+        /* Discussion Thread View Modal Details */
+        .discussion-thread-box {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .thread-question-header {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+        }
+
+        .thread-replies-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .thread-reply-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .thread-reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #065f46;
+            color: #ffffff;
+            padding: 14px 22px;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 20px;
+            }
+            .workspace {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">🚀 GradPath Portal</div>
+        
+        <div class="nav-group-title">Main Portal</div>
+        <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+        <a href="ask-an-alumnus.html" class="nav-btn active">💬 Ask an Alumnus</a>
+        <a href="alumni-career-profile-directory.html" class="nav-btn">🎓 Alumni Career Directory</a>
+        <a href="Exclusive_Alumni_Referral_Job_Board.html" class="nav-btn">💼 Referral Job Board</a>
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+        <a href="mock-interview-readiness.html" class="nav-btn">📊 Interview Readiness</a>
+        <a href="booking.html" class="nav-btn">📅 Mock Interview Booking</a>
+        
+        <div class="nav-group-title">Career Tools</div>
+        <a href="question-vault.html" class="nav-btn">📚 Question Vault</a>
+        <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator</a>
+        <a href="mentor-review.html" class="nav-btn">📝 Resume Reviewer</a>
+        <a href="verify.html" class="nav-btn">🛡️ Verification Portal</a>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="workspace">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title">
+                <h1>Ask an Alumnus</h1>
+                <p>A dedicated discussion forum where students can ask industry, career, higher studies, and interview-related questions and receive answers directly from verified alumni.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" onclick="loadForumData()">↻ Refresh</button>
+                <button class="btn btn-primary" onclick="openAskModal()">+ Ask a Question</button>
+            </div>
+        </header>
+
+        <!-- Search & Filter Card -->
+        <section class="filter-card">
+            <!-- Search Bar -->
+            <div class="search-box-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search questions by title, keyword, or description..." oninput="handleFilterChange()">
+            </div>
+
+            <!-- Categories Filter Pills -->
+            <div class="category-filters-row">
+                <span class="category-filter-label">Categories:</span>
+                <button class="category-pill active" onclick="setCategory('All', this)">All</button>
+                <button class="category-pill" onclick="setCategory('Career', this)">Career</button>
+                <button class="category-pill" onclick="setCategory('Higher Studies', this)">Higher Studies</button>
+                <button class="category-pill" onclick="setCategory('Industry', this)">Industry</button>
+                <button class="category-pill" onclick="setCategory('Job Search', this)">Job Search</button>
+                <button class="category-pill" onclick="setCategory('Interview', this)">Interview</button>
+                <button class="category-pill" onclick="setCategory('Skills', this)">Skills</button>
+                <button class="category-pill" onclick="setCategory('General', this)">General</button>
+            </div>
+        </section>
+
+        <!-- Results Control Bar -->
+        <div class="results-bar">
+            <div class="results-count" id="resultsCount">
+                Loading forum discussions...
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="resetFilters()">Reset Filters</button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading-state">
+            <div class="spinner"></div>
+            <p>Fetching forum questions and alumni discussions...</p>
+        </div>
+
+        <!-- Question Cards List -->
+        <div class="questions-list" id="questionsList">
+            <!-- Populated dynamically via JS API/JSON data -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">💬</div>
+            <h3>No Discussions Found</h3>
+            <p>Try searching for different keywords or select another category filter.</p>
+            <button class="btn btn-primary" onclick="resetFilters()">Clear Filters</button>
+        </div>
+
+    </main>
+
+    <!-- Modal: Ask a Question -->
+    <div class="modal-backdrop" id="askQuestionModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>📝 Ask an Alumnus</h2>
+                <button class="modal-close-btn" onclick="closeAskModal()">&times;</button>
+            </div>
+
+            <form id="askQuestionForm" onsubmit="handleQuestionSubmit(event)">
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label for="formStudentName">Your Name & Student ID</label>
+                        <input type="text" id="formStudentName" class="form-control" placeholder="e.g. Adnan Sami (22201594)" value="Adnan Sami (22201594)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formQuestionCategory">Category *</label>
+                        <select id="formQuestionCategory" class="form-control" required>
+                            <option value="Career">Career</option>
+                            <option value="Higher Studies">Higher Studies</option>
+                            <option value="Industry">Industry</option>
+                            <option value="Job Search">Job Search</option>
+                            <option value="Interview">Interview</option>
+                            <option value="Skills">Skills</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formQuestionTitle">Question Title *</label>
+                        <input type="text" id="formQuestionTitle" class="form-control" placeholder="e.g. How to prepare for system design rounds as a fresher?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formQuestionDesc">Question Description *</label>
+                        <textarea id="formQuestionDesc" class="form-control" placeholder="Provide background context, specific questions, or technologies you need alumni guidance on..." required></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeAskModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitQuestion">🚀 Post Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: View Discussion Thread -->
+    <div class="modal-backdrop" id="viewDiscussionModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>💬 Discussion Thread</h2>
+                <button class="modal-close-btn" onclick="closeDiscussionModal()">&times;</button>
+            </div>
+
+            <div class="modal-body" id="discussionModalBody">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeDiscussionModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast">
+        <span id="toastIcon">✓</span>
+        <span id="toastMessage">Your question has been posted successfully!</span>
+    </div>
+
+    <script>
+        // State
+        let forumQuestions = [];
+        let selectedCategory = 'All';
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const questionsList = document.getElementById('questionsList');
+        const emptyState = document.getElementById('emptyState');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultsCount = document.getElementById('resultsCount');
+        const askQuestionModal = document.getElementById('askQuestionModal');
+        const viewDiscussionModal = document.getElementById('viewDiscussionModal');
+        const discussionModalBody = document.getElementById('discussionModalBody');
+
+        // Dynamic Data Fetching — uses the live /api/alumnus-questions endpoint
+        async function loadForumData() {
+            try {
+                showLoading(true);
+
+                const response = await fetch('/api/alumnus-questions');
+                if (!response.ok) throw new Error(`Server returned ${response.status}`);
+
+                const data = await response.json();
+                forumQuestions = Array.isArray(data) ? data : (data.questions || []);
+
+                renderQuestions();
+
+            } catch (err) {
+                console.error('Data loading error:', err);
+                loadingIndicator.style.display = 'none';
+                questionsList.style.display = 'flex';
+                questionsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #dc2626; width:100%;">
+                        ⚠️ Failed to load forum discussions. Make sure the server is running.<br>
+                        <button class="btn btn-outline btn-sm" style="margin-top: 12px;" onclick="loadForumData()">Retry</button>
+                    </div>
+                `;
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showLoading(isLoading) {
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+                questionsList.style.display = 'none';
+                emptyState.style.display = 'none';
+            } else {
+                loadingIndicator.style.display = 'none';
+                questionsList.style.display = 'flex';
+            }
+        }
+
+        // Category Filter
+        function setCategory(category, buttonElement) {
+            selectedCategory = category;
+            document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+            renderQuestions();
+        }
+
+        function handleFilterChange() {
+            renderQuestions();
+        }
+
+        function resetFilters() {
+            searchInput.value = '';
+            selectedCategory = 'All';
+            document.querySelectorAll('.category-pill').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === 'All');
+            });
+            renderQuestions();
+            showToast('Filters reset.');
+        }
+
+        // Render Questions dynamically
+        function renderQuestions() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            const filtered = forumQuestions.filter(q => {
+                const matchCategory = (selectedCategory === 'All') || (q.category && q.category.toLowerCase() === selectedCategory.toLowerCase());
+                const matchSearch = !query ||
+                    (q.title && q.title.toLowerCase().includes(query)) ||
+                    (q.description && q.description.toLowerCase().includes(query)) ||
+                    (q.category && q.category.toLowerCase().includes(query));
+
+                return matchCategory && matchSearch;
+            });
+
+            resultsCount.innerHTML = `Showing <strong>${filtered.length}</strong> discussion${filtered.length === 1 ? '' : 's'}`;
+
+            if (filtered.length === 0) {
+                questionsList.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            questionsList.style.display = 'flex';
+            questionsList.innerHTML = '';
+
+            filtered.forEach(q => {
+                const replies = Array.isArray(q.replies) ? q.replies : [];
+                // Calculate reply count dynamically from replies array length
+                const replyCountText = `${replies.length} ${replies.length === 1 ? 'Reply' : 'Replies'}`;
+
+                // Find latest verified alumni reply for preview if exists
+                const latestReply = replies.length > 0 ? replies[0] : null;
+
+                let replyPreviewHtml = '';
+                if (latestReply) {
+                    // Check verification status dynamically from API data
+                    const verifiedBadge = latestReply.verified 
+                        ? `<span class="badge-verified">✓ Verified Alumni</span>` 
+                        : '';
+
+                    replyPreviewHtml = `
+                        <div class="alumni-reply-preview">
+                            <div class="alumni-preview-header">
+                                <div class="alumni-info">
+                                    <span>💬 ${escapeHtml(latestReply.alumniName)}</span>
+                                    <span class="alumni-role-tag">(${escapeHtml(latestReply.jobTitle)} | ${escapeHtml(latestReply.company)})</span>
+                                    ${verifiedBadge}
+                                </div>
+                                <span style="font-size: 0.78rem; color: var(--text-light);">${escapeHtml(latestReply.date || '')}</span>
+                            </div>
+                            <div class="alumni-reply-text">
+                                "${escapeHtml(latestReply.reply)}"
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Map category CSS class
+                let catClass = '';
+                const catLower = (q.category || '').toLowerCase();
+                if (catLower.includes('higher')) catClass = 'higher-studies';
+                else if (catLower.includes('skill')) catClass = 'skills';
+                else if (catLower.includes('interview')) catClass = 'interview';
+                else if (catLower.includes('industry')) catClass = 'industry';
+
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <div class="question-top-row">
+                        <span class="category-badge ${catClass}">${escapeHtml(q.category || 'General')}</span>
+                        <div class="question-meta">
+                            <span>📅 ${escapeHtml(q.date || 'Recent')}</span>
+                            <span>•</span>
+                            <span>Asked by <strong>${escapeHtml(q.studentName || 'Student')}</strong></span>
+                        </div>
+                    </div>
+
+                    <h3 class="question-title">${escapeHtml(q.title)}</h3>
+                    <p class="question-description">${escapeHtml(q.description)}</p>
+
+                    ${replyPreviewHtml}
+
+                    <div class="question-footer">
+                        <span class="replies-count-pill">💬 ${replyCountText}</span>
+                        <button class="btn btn-outline btn-sm" onclick="viewDiscussion('${escapeJs(q.questionId)}')">
+                            View Discussion →
+                        </button>
+                    </div>
+                `;
+                questionsList.appendChild(card);
+            });
+        }
+
+        // View Discussion Thread Modal
+        function viewDiscussion(questionId) {
+            const q = forumQuestions.find(item => item.questionId === questionId);
+            if (!q) return;
+
+            const replies = Array.isArray(q.replies) ? q.replies : [];
+            const replyCount = replies.length;
+
+            let repliesListHtml = '';
+            if (replyCount === 0) {
+                repliesListHtml = `
+                    <div style="text-align: center; padding: 24px; color: var(--text-light); background: #f8fafc; border-radius: var(--radius-md);">
+                        No alumni replies yet. Be the first verified alumni to share guidance!
+                    </div>
+                `;
+            } else {
+                replies.forEach(r => {
+                    // Check verification dynamically
+                    const verifiedBadge = r.verified 
+                        ? `<span class="badge-verified">✓ Verified Alumni</span>` 
+                        : '';
+
+                    repliesListHtml += `
+                        <div class="thread-reply-card">
+                            <div class="thread-reply-header">
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                                        ${escapeHtml(r.alumniName)}
+                                        ${verifiedBadge}
+                                    </div>
+                                    <div style="font-size: 0.82rem; color: var(--primary); font-weight: 600; margin-top: 2px;">
+                                        ${escapeHtml(r.jobTitle)} | ${escapeHtml(r.company)}
+                                    </div>
+                                </div>
+                                <span style="font-size: 0.78rem; color: var(--text-light);">${escapeHtml(r.date)}</span>
+                            </div>
+                            <div style="font-size: 0.92rem; color: #334155; line-height: 1.6; margin-top: 8px;">
+                                ${escapeHtml(r.reply)}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            discussionModalBody.innerHTML = `
+                <div class="discussion-thread-box">
+                    <div class="thread-question-header">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.82rem; color: var(--text-light);">
+                            <span class="category-badge">${escapeHtml(q.category)}</span>
+                            <span>Asked on ${escapeHtml(q.date)} by <strong>${escapeHtml(q.studentName)}</strong></span>
+                        </div>
+                        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-dark); margin-bottom: 10px;">${escapeHtml(q.title)}</h3>
+                        <p style="font-size: 0.95rem; color: #475569; line-height: 1.6;">${escapeHtml(q.description)}</p>
+                    </div>
+
+                    <div>
+                        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-dark); margin: 16px 0 10px 0; display: flex; align-items: center; gap: 8px;">
+                            💬 Replies (${replyCount})
+                        </h4>
+                        <div class="thread-replies-list">
+                            ${repliesListHtml}
+                        </div>
+                    </div>
+
+                    <!-- Quick Reply Section -->
+                    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-top: 14px;">
+                        <h5 style="font-size: 0.88rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">Contribute to this discussion</h5>
+                        <textarea id="replyText_${q.questionId}" class="form-control" placeholder="Share your experience or advice for this student..." style="min-height: 70px; margin-bottom: 10px;"></textarea>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="submitReply('${q.questionId}')">Post Reply</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            viewDiscussionModal.classList.add('show');
+        }
+
+        function closeDiscussionModal() {
+            viewDiscussionModal.classList.remove('show');
+        }
+
+        // Post a reply via the API, then reload to reflect persisted data
+        async function submitReply(questionId) {
+            const textarea = document.getElementById(`replyText_${questionId}`);
+            const text = textarea ? textarea.value.trim() : '';
+
+            if (!text) {
+                showToast('Please type a reply before submitting.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/alumnus-questions/${questionId}/replies`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        alumniName: 'Anonymous Alumnus',
+                        jobTitle: 'Alumni',
+                        company: 'Industry',
+                        reply: text,
+                        verified: false
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    showToast('Your reply was added to the thread!');
+                    closeDiscussionModal();
+                    await loadForumData();
+                    viewDiscussion(questionId);
+                } else {
+                    showToast('Failed to post reply: ' + (result.message || 'Unknown error'));
+                }
+            } catch (err) {
+                console.error('Reply error:', err);
+                showToast('Network error — could not post reply.');
+            }
+        }
+
+        // Open & Close Ask Modal
+        function openAskModal() {
+            document.getElementById('askQuestionForm').reset();
+            askQuestionModal.classList.add('show');
+        }
+
+        function closeAskModal() {
+            askQuestionModal.classList.remove('show');
+        }
+
+        // Handle Ask Question Form Submit — POSTs to /api/alumnus-questions
+        async function handleQuestionSubmit(e) {
+            e.preventDefault();
+
+            const studentName = document.getElementById('formStudentName').value.trim() || 'Student';
+            const category = document.getElementById('formQuestionCategory').value;
+            const title = document.getElementById('formQuestionTitle').value.trim();
+            const description = document.getElementById('formQuestionDesc').value.trim();
+
+            if (!title || !description) {
+                showToast('Please fill in all required fields.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('btnSubmitQuestion');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Posting...';
+
+            try {
+                const response = await fetch('/api/alumnus-questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ studentName, category, title, description })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    closeAskModal();
+                    showToast('Your question has been posted successfully!');
+                    await loadForumData(); // reload from server so new question appears
+                } else {
+                    showToast('Error: ' + (result.message || 'Could not post question.'));
+                }
+            } catch (err) {
+                console.error('Post question error:', err);
+                showToast('Network error — could not post your question.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🚀 Post Question';
+            }
+        }
+
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function escapeJs(str) {
+            if (!str) return '';
+            return String(str).replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+
+        // Modal backdrop click
+        window.addEventListener('click', (e) => {
+            if (e.target === askQuestionModal) closeAskModal();
+            if (e.target === viewDiscussionModal) closeDiscussionModal();
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadForumData();
+        });
+    </script>
+</body>
+</html>

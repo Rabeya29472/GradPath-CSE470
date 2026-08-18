@@ -1,0 +1,192 @@
+{
+  "questions": [
+    {
+      "questionId": "Q-1787040725320",
+      "studentId": "22201594",
+      "studentName": "Adnan Sami (22201594)",
+      "title": "Hello",
+      "description": "Good to see you",
+      "category": "Career",
+      "date": "2026-08-18",
+      "replies": [
+        {
+          "replyId": "R-1787040742683",
+          "alumniId": "AL-2683",
+          "alumniName": "Anonymous Alumnus",
+          "jobTitle": "Alumni",
+          "company": "Industry",
+          "verified": false,
+          "reply": "Hi",
+          "date": "2026-08-18"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1001",
+      "studentId": "22201594",
+      "studentName": "Adnan Sami",
+      "title": "How to transition from university DSA to production backend microservices?",
+      "description": "I have solved around 300 LeetCode problems and feel comfortable with algorithms, but when looking at real-world backend job descriptions (Go/Java Spring, Kafka, Docker, Kubernetes), I feel overwhelmed. How can a fresh graduate bridge this gap before applying to top tech firms?",
+      "category": "Career",
+      "date": "2026-08-10",
+      "replies": [
+        {
+          "replyId": "R-2001",
+          "alumniId": "AL-101",
+          "alumniName": "Sarah Ahmed",
+          "jobTitle": "Senior Software Engineer",
+          "company": "Google",
+          "verified": true,
+          "reply": "LeetCode proves your algorithmic thinking, but production engineering is about designing for failure, latency, and maintainability. My recommendation: build one non-trivial end-to-end service with database migrations, JWT authentication, a Redis cache layer, and containerize it with Docker Compose. Mentioning that in your resume immediately sets you apart from 90% of applicants.",
+          "date": "2026-08-11"
+        },
+        {
+          "replyId": "R-2002",
+          "alumniId": "AL-102",
+          "alumniName": "Rakib Hasan",
+          "jobTitle": "Backend Software Engineer",
+          "company": "bKash",
+          "verified": true,
+          "reply": "Focus on API idempotency, database indexing, and message queue semantics (e.g., Kafka/RabbitMQ). In fintech and high-scale local companies, we care heavily about transaction consistency and handling network retries gracefully. Practice explaining these concepts clearly during technical interviews.",
+          "date": "2026-08-12"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1002",
+      "studentId": "24241140",
+      "studentName": "Rabeya Bashar",
+      "title": "Direct PhD vs Master's abroad after BRACU CSE: What do US universities look for?",
+      "description": "I am in my 7th semester with a 3.85 CGPA and one IEEE conference publication. Is it realistic to apply directly for fully funded PhD programs in Machine Learning in the US or should I apply for MS with thesis first? How important is faculty recommendation?",
+      "category": "Higher Studies",
+      "date": "2026-08-08",
+      "replies": [
+        {
+          "replyId": "R-2003",
+          "alumniId": "AL-107",
+          "alumniName": "Mahmudur Rahman",
+          "jobTitle": "Machine Learning Engineer",
+          "company": "Optimizely",
+          "verified": true,
+          "reply": "Direct PhD is very common and usually 100% funded through RA/TAships. Your publication and high CGPA give you a strong foundation. The most crucial factor is finding 3-4 professors whose recent papers align with your research interests and writing a tailored Statement of Purpose. Solid recommendation letters from faculty who know your work personally will make all the difference.",
+          "date": "2026-08-09"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1003",
+      "studentId": "22201628",
+      "studentName": "Rakib Hasan Jr.",
+      "title": "What are the most in-demand cloud & DevOps skills for campus recruitments?",
+      "description": "I am preparing for upcoming hiring drives. Besides standard web frameworks, should I invest time in Terraform, AWS certifications, or Kubernetes?",
+      "category": "Skills",
+      "date": "2026-08-05",
+      "replies": [
+        {
+          "replyId": "R-2004",
+          "alumniId": "AL-105",
+          "alumniName": "Ayan Khan",
+          "jobTitle": "Cloud Solutions Architect",
+          "company": "Microsoft",
+          "verified": true,
+          "reply": "For entry-level roles, you don't need expensive paid certifications. What hiring managers want to see is hands-on familiarity: know how Linux systems work, understand CI/CD pipeline automation (GitHub Actions), write a simple Dockerfile, and deploy a container to AWS ECS or Azure Container Apps. Understanding Terraform basics is a huge bonus!",
+          "date": "2026-08-06"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1004",
+      "studentId": "22201574",
+      "studentName": "Farhan Kabir",
+      "title": "How to negotiate compensation and evaluate equity in local vs remote tech jobs?",
+      "description": "I recently received two offers: an on-site role at a reputable local software house and a remote Junior contractor position for a US-based startup. How should fresh grads evaluate compensation, tax implications, and career trajectory?",
+      "category": "Job Search",
+      "date": "2026-08-02",
+      "replies": [
+        {
+          "replyId": "R-2005",
+          "alumniId": "AL-106",
+          "alumniName": "Farhana Yasmin",
+          "jobTitle": "Full Stack Lead",
+          "company": "Brain Station 23",
+          "verified": true,
+          "reply": "In your first 1-2 years, prioritize mentorship and learning velocity above all else. In a local office with senior engineers, you get rapid code reviews and pair programming. If you choose remote, make sure the startup has an established engineering culture and assigns you a dedicated senior mentor so you don't get isolated.",
+          "date": "2026-08-03"
+        },
+        {
+          "replyId": "R-2006",
+          "alumniId": "AL-108",
+          "alumniName": "Zubaida Afroz",
+          "jobTitle": "Lead Product Manager",
+          "company": "Pathao",
+          "verified": true,
+          "reply": "Also check health benefits, provident fund, and work equipment allowances. For remote roles, calculate net income after factoring in foreign remittance taxes and independent contractor liabilities.",
+          "date": "2026-08-04"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1005",
+      "studentId": "24256672",
+      "studentName": "Robin Chowdhury",
+      "title": "How to crack the system design round for junior / associate level positions?",
+      "description": "Do tech companies expect low-level design (LLD) or high-level design (HLD) from freshers? What framework should I use to structure my answers in 30 minutes?",
+      "category": "Interview",
+      "date": "2026-07-29",
+      "replies": [
+        {
+          "replyId": "R-2007",
+          "alumniId": "AL-104",
+          "alumniName": "Tanvir Islam",
+          "jobTitle": "Embedded Systems Engineer",
+          "company": "Samsung R&D",
+          "verified": true,
+          "reply": "For junior positions, interviewers primarily evaluate Object-Oriented Design (LLD), database entity-relationship modeling, and clean code principles (SOLID). For HLD, demonstrate that you know where caching fits, how load balancers route traffic, and how to estimate basic scale. Always clarify requirements first before jumping into architecture.",
+          "date": "2026-07-30"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1006",
+      "studentId": "23101122",
+      "studentName": "Sumaiya Akhtar",
+      "title": "Breaking into Product Management / Business Analysis from a CSE background",
+      "description": "I have realized I enjoy product strategy, user journey mapping, and cross-functional coordination more than pure coding. How can I position my CSE degree for Associate Product Manager (APM) and Business Analyst roles?",
+      "category": "Industry",
+      "date": "2026-07-25",
+      "replies": [
+        {
+          "replyId": "R-2008",
+          "alumniId": "AL-103",
+          "alumniName": "Nabila Noor",
+          "jobTitle": "Senior Business Analyst",
+          "company": "Mastercard",
+          "verified": true,
+          "reply": "A CSE degree is an enormous advantage for APM and BA roles because technical credibility with engineering teams is priceless! Highlight your ability to translate ambiguous business requirements into technical specs, demonstrate SQL/analytics skills, and build product case teardowns in your portfolio.",
+          "date": "2026-07-26"
+        }
+      ]
+    },
+    {
+      "questionId": "Q-1007",
+      "studentId": "23201400",
+      "studentName": "Kazi Mehedi",
+      "title": "Tips for staying productive and avoiding burnout during final year thesis and job hunting?",
+      "description": "Balancing capstone project deadlines, final semester courses, and endless job applications is causing immense stress. Any actionable time management strategies from alumni who went through this?",
+      "category": "General",
+      "date": "2026-07-20",
+      "replies": [
+        {
+          "replyId": "R-2009",
+          "alumniId": "AL-101",
+          "alumniName": "Sarah Ahmed",
+          "jobTitle": "Senior Software Engineer",
+          "company": "Google",
+          "verified": true,
+          "reply": "Time-box your days ruthlessly: allocate fixed 2-hour morning blocks for thesis work and dedicated 1-hour evening slots for job applications. Don't apply to 50 companies randomly with generic resumes; target 5-10 companies where alumni work, get referrals, and take regular weekends off to recharge.",
+          "date": "2026-07-21"
+        }
+      ]
+    }
+  ]
+}

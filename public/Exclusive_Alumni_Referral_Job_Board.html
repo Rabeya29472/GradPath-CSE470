@@ -7,6 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #fff; border-right: 1px solid #e2e8f0; padding: 30px 20px; box-sizing: border-box; flex-shrink: 0; }
+        .brand { font-size: 1.25rem; font-weight: 700; margin-bottom: 40px; }
+        .nav-btn { background: transparent; border: none; color: #64748b; padding: 14px 16px; text-align: left; font-size: 0.95rem; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; margin-bottom: 8px; display: block; text-decoration: none; box-sizing: border-box; }
+        .nav-btn:hover, .nav-btn.active { background: #f1f5f9; color: #0f172a; }
+        .workspace { flex: 1; padding: 40px 60px; max-width: 1300px; }
         .sidebar { width: 280px; background: #fff; border-right: 1px solid #e2e8f0; padding: 30px 20px; box-sizing: border-box; }
         .brand { font-size: 1.25rem; font-weight: 700; margin-bottom: 40px; }
         .nav-btn { background: transparent; border: none; color: #64748b; padding: 14px 16px; text-align: left; font-size: 0.95rem; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; margin-bottom: 8px; display: block; text-decoration: none; box-sizing: border-box; }
@@ -16,6 +21,7 @@
         .header h2 { margin: 0; font-size: 1.5rem; color: #0f172a; }
         .header p { color: #64748b; margin-top: 8px; margin-bottom: 0; }
         .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 5px; font-family: inherit; }
         .btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 5px; }
         .btn-primary { background: #2563eb; color: #fff; }
         .btn-primary:hover { background: #1d4ed8; }
@@ -27,6 +33,35 @@
         .stat-card .value { font-size: 32px; font-weight: bold; color: #2563eb; margin-top: 5px; }
         .filters { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 24px; }
         .filters input, .filters select { padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; flex: 1; min-width: 150px; font-family: inherit; background: #fff; }
+        .job-card { background: #fff; padding: 20px 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 15px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); transition: all 0.2s ease; }
+        .job-card:hover { border-color: #cbd5e1; box-shadow: 0 6px 18px rgba(15,23,42,0.08); transform: translateY(-1px); }
+        .job-card .title { font-size: 20px; font-weight: bold; color: #0f172a; }
+        .job-card .company { font-size: 16px; color: #475569; margin: 5px 0; display: flex; align-items: center; gap: 8px; }
+        .job-card .verified { background: #dcfce7; color: #166534; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; }
+        .job-card .meta { display: flex; flex-wrap: wrap; gap: 15px; margin: 10px 0; color: #64748b; font-size: 14px; }
+        .job-card .description { margin: 10px 0; color: #475569; line-height: 1.5; }
+        .job-card .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #f1f5f9; flex-wrap: wrap; gap: 12px; }
+        .job-card .poster { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #64748b; }
+        .job-card .poster .avatar { width: 32px; height: 32px; border-radius: 50%; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #2563eb; }
+        .btn-apply { background: #0f172a; color: #fff; padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-family: inherit; }
+        .btn-apply:hover { background: #1e293b; }
+        .empty { text-align: center; padding: 60px 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e2e8f0; color: #94a3b8; }
+        .loading-state { text-align: center; padding: 40px 20px; color: #64748b; }
+        .spinner { width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top: 3px solid #2563eb; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.45); justify-content: center; align-items: center; z-index: 1000; }
+        .modal.show { display: flex; }
+        .modal-content { background: #fff; padding: 30px; border-radius: 16px; max-width: 560px; width: 90%; max-height: 90vh; overflow-y: auto; border: 1px solid #e2e8f0; }
+        .modal-content h2 { margin-bottom: 8px; color: #0f172a; }
+        .modal-content input, .modal-content select, .modal-content textarea { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit; box-sizing: border-box; }
+        .modal-content textarea { min-height: 80px; resize: vertical; }
+        .modal-content label { font-weight: 600; font-size: 14px; color: #334155; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .modal-actions .btn-cancel { flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; background: transparent; cursor: pointer; font-weight: 600; font-family: inherit; }
+        .modal-actions .btn-submit { flex: 2; padding: 10px; border: none; border-radius: 8px; background: #2563eb; color: #fff; cursor: pointer; font-weight: 600; font-family: inherit; }
+        .modal-actions .btn-submit:hover { background: #1d4ed8; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #065f46; color: #fff; padding: 14px 22px; border-radius: 8px; font-size: 0.92rem; font-weight: 600; display: none; z-index: 2000; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .toast.show { display: block; }
         .job-card { background: #fff; padding: 20px 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 15px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
         .job-card:hover { border-color: #cbd5e1; box-shadow: 0 6px 18px rgba(15,23,42,0.08); }
         .job-card .title { font-size: 20px; font-weight: bold; color: #0f172a; }
@@ -63,6 +98,13 @@
     <div class="sidebar">
         <div class="brand">🚀 GradPath Portal</div>
         <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+        <a href="alumni-career-profile-directory.html" class="nav-btn">🎓 Alumni Career Directory</a>
+        <a href="Exclusive_Alumni_Referral_Job_Board.html" class="nav-btn active">💼 Referral Job Board</a>
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+        <a href="booking.html" class="nav-btn">📅 Mock Interview Booking</a>
+        <a href="verify.html" class="nav-btn">🛡️ Verification Portal (F8)</a>
+        <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator (F12)</a>
+        <a href="question-vault.html" class="nav-btn">📚 Question Vault</a>
         <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
         <a href="verify.html" class="nav-btn">🛡️ Verification Portal (F8)</a>
         <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator (F12)</a>
@@ -74,6 +116,10 @@
         <div class="header">
             <div>
                 <h2>Exclusive Alumni Referral Job Board</h2>
+                <p>Verified alumni positions, internships, and entry-level roles fetched directly via dynamic API.</p>
+            </div>
+            <div>
+                <button class="btn btn-outline" onclick="loadJobs()">↻ Refresh</button>
                 <p>Verified alumni positions, internships, and entry-level roles inside the shared GradPath workspace.</p>
             </div>
             <div>
@@ -90,6 +136,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="label">Verified Alumni</div>
+                    <div class="value" id="verifiedAlumniCount">5 <span style="font-size:16px;color:#64748b;">active</span></div>
                     <div class="value">5 <span style="font-size:16px;color:#64748b;">active</span></div>
                 </div>
                 <div class="stat-card">
@@ -99,18 +146,34 @@
             </div>
 
             <div class="filters">
+                <input type="text" id="searchInput" placeholder="🔍 Search job title, company, description, or location..." oninput="applyFilters()">
                 <input type="text" id="searchInput" placeholder="🔍 Search job title or company..." oninput="applyFilters()">
                 <select id="typeFilter" onchange="applyFilters()">
                     <option value="">All Types</option>
                     <option value="Full-time">Full-time</option>
                     <option value="Internship">Internship</option>
                     <option value="Contract">Contract</option>
+                    <option value="Part-time">Part-time</option>
                 </select>
                 <select id="majorFilter" onchange="applyFilters()">
                     <option value="">All Majors</option>
                     <option value="CSE">CSE</option>
                     <option value="EEE">EEE</option>
                     <option value="BBA">BBA</option>
+                    <option value="SWE">SWE</option>
+                    <option value="Economics">Economics</option>
+                </select>
+            </div>
+
+            <div id="loadingIndicator" class="loading-state" style="display:none;">
+                <div class="spinner"></div>
+                <p>Loading referral jobs from API...</p>
+            </div>
+
+            <div id="jobListings"></div>
+
+            <div id="emptyState" class="empty" style="display:none;">
+                <p>📭 No referral jobs found. Try adjusting your filters or post a new referral opportunity!</p>
                 </select>
             </div>
 
@@ -122,6 +185,17 @@
         </div>
     </div>
 
+    <!-- Post Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <h2>📝 Post a Referral Job</h2>
+            <p style="color:#64748b; margin-bottom:20px;">Only verified alumni can post exclusive referral roles.</p>
+            <form id="jobForm" onsubmit="submitJob(event)">
+                <label>Job Title *</label>
+                <input type="text" id="jobTitle" placeholder="e.g. Software Engineer Intern" required>
+
+                <label>Company *</label>
+                <input type="text" id="jobCompany" placeholder="e.g. Google, bKash, Brain Station 23" required>
     <div id="postModal" class="modal">
         <div class="modal-content">
             <h2>📝 Post a Referral Job</h2>
@@ -139,6 +213,7 @@
                     <option value="Full-time">Full-time</option>
                     <option value="Internship">Internship</option>
                     <option value="Contract">Contract</option>
+                    <option value="Part-time">Part-time</option>
                 </select>
 
                 <label>Target Major *</label>
@@ -147,6 +222,22 @@
                     <option value="CSE">CSE</option>
                     <option value="EEE">EEE</option>
                     <option value="BBA">BBA</option>
+                    <option value="SWE">SWE</option>
+                    <option value="Economics">Economics</option>
+                </select>
+
+                <label>Location</label>
+                <input type="text" id="jobLocation" placeholder="e.g. Dhaka, Bangladesh or Remote">
+
+                <label>Description *</label>
+                <textarea id="jobDescription" placeholder="Job duties, requirements, and referral notes..." required></textarea>
+
+                <label>Application Link or Email</label>
+                <input type="text" id="jobApplyLink" placeholder="https://careers... or mailto:referral@company.com">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-submit" id="btnSubmitJob">🚀 Post Job</button>
                 </select>
 
                 <label>Location</label>
@@ -166,6 +257,50 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast"></div>
+
+    <script>
+        // State
+        let jobs = [];
+
+        // Fetch jobs from API on load
+        async function loadJobs() {
+            try {
+                showLoading(true);
+                const response = await fetch('/api/referral-jobs');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch referral jobs.');
+                }
+                jobs = await response.json();
+                applyFilters();
+            } catch (err) {
+                console.error(err);
+                showToast('⚠️ Error loading jobs from API.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showLoading(isLoading) {
+            const loader = document.getElementById('loadingIndicator');
+            const listings = document.getElementById('jobListings');
+            if (isLoading) {
+                loader.style.display = 'block';
+                listings.style.display = 'none';
+            } else {
+                loader.style.display = 'none';
+                listings.style.display = 'block';
+            }
+        }
+
+        // Render jobs to DOM
+        function renderJobs(filteredJobs) {
+            const container = document.getElementById('jobListings');
+            const empty = document.getElementById('emptyState');
+            const data = filteredJobs !== undefined ? filteredJobs : jobs;
+
+            if (!data || data.length === 0) {
     <script>
         // ============================================================
         // DATA - 5 Sample Jobs
@@ -261,6 +396,25 @@
             document.getElementById('totalJobs').textContent = data.length;
             document.getElementById('exclusiveCount').textContent = data.filter(j => j.verified).length;
 
+            const uniquePosters = new Set(data.map(j => j.postedBy).filter(Boolean));
+            document.getElementById('verifiedAlumniCount').innerHTML = `${Math.max(uniquePosters.size, 5)} <span style="font-size:16px;color:#64748b;">active</span>`;
+
+            let html = '';
+            data.forEach(job => {
+                const initial = (job.postedBy || 'A').charAt(0).toUpperCase();
+                html += `
+                    <div class="job-card">
+                        <div class="title">${escapeHtml(job.title)}</div>
+                        <div class="company">
+                            🏢 ${escapeHtml(job.company)}
+                            <span class="verified">✅ Verified Alumni Referral</span>
+                        </div>
+                        <div class="meta">
+                            <span>📍 ${escapeHtml(job.location || 'Dhaka, Bangladesh')}</span>
+                            <span>🎓 ${escapeHtml(job.major)}</span>
+                            <span>💼 ${escapeHtml(job.type)}</span>
+                        </div>
+                        <div class="description">${escapeHtml(job.description)}</div>
             let html = '';
             data.forEach(job => {
                 const initial = job.postedBy.charAt(0);
@@ -281,6 +435,11 @@
                             <div class="poster">
                                 <div class="avatar">${initial}</div>
                                 <span>
+                                    Posted by <strong>${escapeHtml(job.postedBy || 'Verified Alumni')}</strong>
+                                    ${job.postedYear ? `✅ Class of ${escapeHtml(job.postedYear)}` : ''}
+                                </span>
+                            </div>
+                            <button class="btn-apply" onclick="applyToJob('${escapeJs(job.title)}', '${escapeJs(job.company)}', '${escapeJs(job.applyLink || '')}')">
                                     Posted by <strong>${job.postedBy}</strong>
                                     ✅ Class of ${job.postedYear}
                                 </span>
@@ -296,6 +455,9 @@
             container.innerHTML = html;
         }
 
+        // Apply filters
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
         // ============================================================
         // FILTERS
         // ============================================================
@@ -306,6 +468,12 @@
 
             const filtered = jobs.filter(job => {
                 const matchSearch = !search || 
+                    (job.title && job.title.toLowerCase().includes(search)) || 
+                    (job.company && job.company.toLowerCase().includes(search)) ||
+                    (job.description && job.description.toLowerCase().includes(search)) ||
+                    (job.location && job.location.toLowerCase().includes(search));
+                const matchType = !type || job.type === type;
+                const matchMajor = !major || (job.major && job.major.toLowerCase().includes(major.toLowerCase()));
                     job.title.toLowerCase().includes(search) || 
                     job.company.toLowerCase().includes(search);
                 const matchType = !type || job.type === type;
@@ -323,6 +491,20 @@
             renderJobs(jobs);
         }
 
+        // Apply action
+        function applyToJob(title, company, link) {
+            if (link && link.startsWith('http')) {
+                window.open(link, '_blank');
+            } else if (link && link.startsWith('mailto:')) {
+                window.location.href = link;
+            } else {
+                showToast(`🎉 Application submitted for "${title}" at ${company}! Follow-up details sent to alumni team.`);
+            }
+        }
+
+        // Modal Handling
+        function openModal() {
+            document.getElementById('jobForm').reset();
         // ============================================================
         // APPLY
         // ============================================================
@@ -346,6 +528,8 @@
             if (e.target === this) closeModal();
         });
 
+        // Submit Job via POST API
+        async function submitJob(e) {
         // ============================================================
         // SUBMIT JOB
         // ============================================================
@@ -356,6 +540,86 @@
             const company = document.getElementById('jobCompany').value.trim();
             const type = document.getElementById('jobType').value;
             const major = document.getElementById('jobMajor').value;
+            const location = document.getElementById('jobLocation').value.trim() || 'Dhaka, Bangladesh';
+            const description = document.getElementById('jobDescription').value.trim();
+            const applyLink = document.getElementById('jobApplyLink').value.trim() || '#';
+
+            if (!title || !company || !type || !major || !description) {
+                showToast('⚠️ Please fill in all required fields!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitJob');
+            const orig = btn.innerText;
+            btn.innerText = 'Posting...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/referral-jobs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title,
+                        company,
+                        type,
+                        major,
+                        location,
+                        description,
+                        applyLink,
+                        postedBy: "You (Verified Alumni)",
+                        postedYear: "2025"
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Failed to post job.');
+                }
+
+                showToast('🚀 Job posted successfully to API database!');
+                closeModal();
+                document.getElementById('jobForm').reset();
+                await loadJobs();
+
+            } catch (err) {
+                console.error(err);
+                showToast(err.message || '⚠️ Error posting job.');
+            } finally {
+                btn.innerText = orig;
+                btn.disabled = false;
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotification');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function escapeJs(str) {
+            if (!str) return '';
+            return String(str).replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJobs();
+        });
+    </script>
             const location = document.getElementById('jobLocation').value.trim() || 'Not specified';
             const description = document.getElementById('jobDescription').value.trim();
 

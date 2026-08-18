@@ -1,0 +1,188 @@
+[
+  {
+    "id": 1787035984019,
+    "name": "Adnan Sami",
+    "studentId": "22201594",
+    "gradYear": 2025,
+    "major": "Computer Science & Engineering (CSE)",
+    "company": "Meta",
+    "jobTitle": "Infrastructure Engineer",
+    "industry": "Software & Cloud",
+    "linkedin": "https://linkedin.com/in/adnan-sami",
+    "email": "adnan.sami@example.com",
+    "skills": [
+      "C++",
+      "Distributed Systems",
+      "Linux"
+    ],
+    "verified": true,
+    "createdAt": "2026-08-18T06:53:04.019Z"
+  },
+  {
+    "id": 1708240001001,
+    "name": "Sarah Ahmed",
+    "studentId": "22201594",
+    "gradYear": 2020,
+    "major": "Computer Science & Engineering (CSE)",
+    "company": "Google",
+    "jobTitle": "Senior Software Engineer",
+    "industry": "Software & Cloud",
+    "linkedin": "https://linkedin.com/in/sarah-ahmed-swe",
+    "email": "sarah.ahmed@example.com",
+    "skills": [
+      "Distributed Systems",
+      "Go",
+      "Kubernetes",
+      "GCP"
+    ],
+    "verified": true,
+    "createdAt": "2024-01-15T08:30:00.000Z"
+  },
+  {
+    "id": 1708240002002,
+    "name": "Rakib Hasan",
+    "studentId": "22201628",
+    "gradYear": 2021,
+    "major": "Computer Science & Engineering (CSE)",
+    "company": "bKash",
+    "jobTitle": "Backend Software Engineer",
+    "industry": "FinTech",
+    "linkedin": "https://linkedin.com/in/rakib-hasan-bkash",
+    "email": "rakib.hasan@example.com",
+    "skills": [
+      "Java",
+      "Spring Boot",
+      "Microservices",
+      "Kafka",
+      "PostgreSQL"
+    ],
+    "verified": true,
+    "createdAt": "2024-02-10T11:15:00.000Z"
+  },
+  {
+    "id": 1708240003003,
+    "name": "Nabila Noor",
+    "studentId": "19301201",
+    "gradYear": 2019,
+    "major": "Bachelor of Business Administration (BBA)",
+    "company": "Mastercard",
+    "jobTitle": "Senior Business Analyst",
+    "industry": "FinTech & Banking",
+    "linkedin": "https://linkedin.com/in/nabilanoor-ba",
+    "email": "nabila.noor@example.com",
+    "skills": [
+      "Financial Modeling",
+      "Data Analysis",
+      "SQL",
+      "PowerBI",
+      "Agile"
+    ],
+    "verified": true,
+    "createdAt": "2024-02-14T09:45:00.000Z"
+  },
+  {
+    "id": 1708240004004,
+    "name": "Tanvir Islam",
+    "studentId": "18201455",
+    "gradYear": 2022,
+    "major": "Electrical & Electronic Engineering (EEE)",
+    "company": "Samsung R&D",
+    "jobTitle": "Embedded Systems Engineer",
+    "industry": "Hardware & Embedded Systems",
+    "linkedin": "https://linkedin.com/in/tanvir-embedded",
+    "email": "tanvir.islam@example.com",
+    "skills": [
+      "C/C++",
+      "RTOS",
+      "Firmware",
+      "ARM Cortex",
+      "PCB Design"
+    ],
+    "verified": true,
+    "createdAt": "2024-03-01T14:20:00.000Z"
+  },
+  {
+    "id": 1708240005005,
+    "name": "Ayan Khan",
+    "studentId": "22201574",
+    "gradYear": 2023,
+    "major": "Computer Science & Engineering (CSE)",
+    "company": "Microsoft",
+    "jobTitle": "Cloud Solutions Architect",
+    "industry": "Cloud Computing",
+    "linkedin": "https://linkedin.com/in/ayan-khan-cloud",
+    "email": "ayan.khan@example.com",
+    "skills": [
+      "Azure",
+      "Terraform",
+      "DevOps",
+      "CI/CD",
+      "Docker"
+    ],
+    "verified": true,
+    "createdAt": "2024-03-12T16:00:00.000Z"
+  },
+  {
+    "id": 1708240006006,
+    "name": "Farhana Yasmin",
+    "studentId": "19101340",
+    "gradYear": 2022,
+    "major": "Software Engineering (SWE)",
+    "company": "Brain Station 23",
+    "jobTitle": "Full Stack Developer",
+    "industry": "Software & Web Development",
+    "linkedin": "https://linkedin.com/in/farhana-yasmin-swe",
+    "email": "farhana.y@example.com",
+    "skills": [
+      "React",
+      "Node.js",
+      "TypeScript",
+      "GraphQL",
+      "MongoDB"
+    ],
+    "verified": true,
+    "createdAt": "2024-04-05T10:10:00.000Z"
+  },
+  {
+    "id": 1708240007007,
+    "name": "Mahmudur Rahman",
+    "studentId": "22201679",
+    "gradYear": 2024,
+    "major": "Computer Science & Engineering (CSE)",
+    "company": "Optimizely",
+    "jobTitle": "Machine Learning Engineer",
+    "industry": "AI & Data Science",
+    "linkedin": "https://linkedin.com/in/mahmudur-ml",
+    "email": "mahmudur.r@example.com",
+    "skills": [
+      "Python",
+      "PyTorch",
+      "NLP",
+      "LLMs",
+      "FastAPI"
+    ],
+    "verified": true,
+    "createdAt": "2024-05-18T13:40:00.000Z"
+  },
+  {
+    "id": 1708240008008,
+    "name": "Zubaida Afroz",
+    "studentId": "17301099",
+    "gradYear": 2018,
+    "major": "Bachelor of Business Administration (BBA)",
+    "company": "Pathao",
+    "jobTitle": "Lead Product Manager",
+    "industry": "E-Commerce & Logistics",
+    "linkedin": "https://linkedin.com/in/zubaida-pm",
+    "email": "zubaida.afroz@example.com",
+    "skills": [
+      "Product Strategy",
+      "User Research",
+      "Roadmapping",
+      "Growth",
+      "Data Analytics"
+    ],
+    "verified": true,
+    "createdAt": "2024-06-01T15:25:00.000Z"
+  }
+]
