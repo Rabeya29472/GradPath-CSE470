@@ -7,12 +7,14 @@ const alumniProfilesFile = './alumniProfiles.json';
 const referralJobsFile = './referralJobs.json';
 const mockInterviewDataFile = './mockInterviewData.json';
 const askAlumnusDataFile = './askAlumnusData.json';
-const bookingFile = './bookingData.json'; //added by rabeya//
-const evaluationFile = './interviewEvaluations.json';
+
+
 const app = express();
 const PORT = 8000;
 const multer = require('multer');
-
+const skillGapRoutes = require('./routes/skillGapRoutes');
+const noShowBlacklistRoutes =require('./routes/noShowBlacklistRoutes');
+const noShowBlacklistModel =require('./models/noShowBlacklistModel');
 // Resume Upload Configuration
 
 const storage = multer.diskStorage({
@@ -55,7 +57,11 @@ const upload = multer({
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/api/skill-gap', skillGapRoutes);
+app.use(
+    '/api/no-show',
+    noShowBlacklistRoutes
+);
 app.get('/question-vault.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Company-Specific Question.html'));
 });
@@ -324,7 +330,35 @@ app.post('/api/book-slot', (req, res) => {
 
     try {
 
+        const blacklist =
+            noShowBlacklistModel.getActiveBlacklist(
+                studentId
+            );
+
+        if (blacklist) {
+
+            const expiryDate =
+                new Date(
+                    blacklist.expiresAt
+                ).toLocaleDateString(
+                    'en-US',
+                    {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }
+                );
+
+            return res.status(403).json({
+                success: false,
+                message:
+                    `Booking unavailable. You are restricted from booking mock interviews until ${expiryDate} due to a previous no-show.`
+            });
+        }
+
         const data = fs.readFileSync(bookingFile);
+
+        
 
         const bookings = JSON.parse(data);
 
@@ -390,65 +424,6 @@ app.post('/api/book-slot', (req, res) => {
     }
 
 });
-// ================================
-// Interview Evaluation API
-// ================================
-
-app.post('/api/interview-evaluation', (req, res) => {
-
-    const {
-        bookingId,
-        sections,
-        feedback
-    } = req.body;
-
-    try {
-
-        // Make sure evaluation file exists
-        if (!fs.existsSync(evaluationFile)) {
-            fs.writeFileSync(evaluationFile, '[]');
-        }
-
-        const evaluations = JSON.parse(
-            fs.readFileSync(evaluationFile)
-        );
-
-        // Find the original booking
-        const bookings = JSON.parse(
-            fs.readFileSync(bookingFile)
-        );
-
-        const booking = bookings.find(
-            item => item.id == bookingId
-        );
-
-        if (!booking) {
-
-            return res.status(404).json({
-                success: false,
-                message: "Interview booking not found."
-            });
-
-        }
-
-        // Validate sections
-        if (!sections || sections.length === 0) {
-
-            return res.status(400).json({
-                success: false,
-                message: "Please add at least one assessment section."
-            });
-
-        }
-
-        // Calculate average score out of 10
-        const totalScore = sections.reduce(
-            (sum, section) => sum + Number(section.score),
-            0
-        );
-
-        const overallScore =
-            Math.round((totalScore / sections.length) * 10) / 10;
 
 // Resume Critique Request API
 

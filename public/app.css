@@ -1,0 +1,128 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.app-layout {
+    min-height: 100vh;
+    display: flex;
+}
+
+.app-sidebar {
+    width: 270px;
+    min-height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 28px 18px;
+    flex-shrink: 0;
+}
+
+.app-brand {
+    font-size: 23px;
+    font-weight: 700;
+    color: #0f172a;
+    padding: 0 12px;
+    margin-bottom: 32px;
+}
+
+.role-section {
+    margin-bottom: 28px;
+}
+
+.role-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0 12px;
+    margin-bottom: 9px;
+}
+
+.role-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #f1f5f9;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.role-toggle button {
+    border: none;
+    background: transparent;
+    padding: 9px 5px;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.role-toggle button.active {
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.app-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.app-nav a {
+    display: block;
+    padding: 11px 12px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.15s ease;
+}
+
+.app-nav a:hover {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.app-nav a.active {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.app-content {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 800px) {
+    .app-sidebar {
+        width: 220px;
+    }
+}
+
+@media (max-width: 650px) {
+    .app-layout {
+        display: block;
+    }
+
+    .app-sidebar {
+        width: 100%;
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .app-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
