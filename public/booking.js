@@ -9,8 +9,16 @@ const bookBtn = document.getElementById("bookBtn");
 
 // Mentor dropdown
 const mentorSelect = document.getElementById("mentor");
+const urgentInterview = document.getElementById("urgentInterview");
+const urgentDetails = document.getElementById("urgentDetails");
+const realInterviewAt = document.getElementById("realInterviewAt");
 
 let selectedSlot = null;
+
+urgentInterview.addEventListener("change", () => {
+    urgentDetails.hidden = !urgentInterview.checked;
+    realInterviewAt.required = urgentInterview.checked;
+});
 
 // Select a slot
 slots.forEach(slot => {
@@ -64,6 +72,11 @@ bookBtn.addEventListener("click", () => {
         return;
     }
 
+    if (urgentInterview.checked && realInterviewAt.value === "") {
+        alert("Please enter your real-world interview date and time.");
+        return;
+    }
+
     fetch("/api/book-slot", {
         method: "POST",
         headers: {
@@ -73,10 +86,18 @@ bookBtn.addEventListener("click", () => {
             studentName: studentName,
             studentId: studentId,
             mentor: mentorSelect.value,
-            time: selectedSlot
+            time: selectedSlot,
+            urgentInterview: urgentInterview.checked,
+            realInterviewAt: urgentInterview.checked ? new Date(realInterviewAt.value).toISOString() : null
         })
     })
-        .then(response => response.json())
+        .then(async response => {
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || "Booking failed.");
+            }
+            return data;
+        })
         .then(data => {
             alert(data.message);
         })

@@ -67,6 +67,19 @@
             color: #64748b;
         }
 
+        .urgent-badge {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #ffedd5;
+            color: #c2410c;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
         .grade-btn {
             background: #2563eb;
             color: white;
@@ -562,202 +575,157 @@
 
 
 <script>
+
     function loadSessions() {
 
-    fetch("/api/bookings")
+        fetch("/api/bookings")
 
-        .then(response => response.json())
+            .then(response => response.json())
 
-        .then(bookings => {
+            .then(bookings => {
 
-            const container =
-                document.getElementById("sessionList");
+                const container =
+                    document.getElementById("sessionList");
 
-            if (!bookings || bookings.length === 0) {
 
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h3>
-                            No Interview Sessions
-                        </h3>
+                if (!bookings || bookings.length === 0) {
 
-                        <p>
-                            There are currently no booked interview sessions.
-                        </p>
-                    </div>
-                `;
+                    container.innerHTML = `
+                        <div class="empty-state">
 
-                return;
-            }
+                            <h3>
+                                No Interview Sessions
+                            </h3>
 
-            let html = "";
-
-            bookings.forEach(booking => {
-
-                html += `
-                    <div class="session-card">
-
-                        <div class="session-info">
-
-                            <div>
-                                <div class="info-label">
-                                    Student
-                                </div>
-
-                                <div class="info-value">
-                                    ${booking.studentName || "Not Provided"}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="info-label">
-                                    Student ID
-                                </div>
-
-                                <div class="info-value">
-                                    ${booking.studentId || "Not Provided"}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="info-label">
-                                    Mentor
-                                </div>
-
-                                <div class="info-value">
-                                    ${booking.mentor}
-                                </div>
-                            </div>
+                            <p>
+                                There are currently no booked interview sessions.
+                            </p>
 
                         </div>
+                    `;
 
-                        <div class="session-footer">
+                    return;
+                }
 
-                            <div class="session-status">
-                                Interview Time:
-                                <strong>
-                                    ${booking.time}
-                                </strong>
+
+                let html = "";
+
+
+                bookings.forEach(booking => {
+
+                    html += `
+                        <div class="session-card">
+
+                            ${booking.urgentInterview ? `
+                                <div class="urgent-badge">
+                                    Urgent preparation request${booking.hoursUntilInterview !== null ? ` · ${Math.max(0, booking.hoursUntilInterview).toFixed(1)} hours left` : ""}
+                                </div>
+                            ` : ""}
+
+                            <div class="session-info">
+
+                                <div>
+
+                                    <div class="info-label">
+                                        Student
+                                    </div>
+
+                                    <div class="info-value">
+                                        ${booking.studentName || "Not Provided"}
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="info-label">
+                                        Student ID
+                                    </div>
+
+                                    <div class="info-value">
+                                        ${booking.studentId || "Not Provided"}
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="info-label">
+                                        Mentor
+                                    </div>
+
+                                    <div class="info-value">
+                                        ${booking.mentor}
+                                    </div>
+
+                                </div>
+
                             </div>
 
-                            <div>
+
+                            <div class="session-footer">
+
+                                <div class="session-status">
+
+                                    Interview Time:
+                                    <strong>
+                                        ${booking.time}
+                                    </strong>
+
+                                </div>
+
 
                                 <button
                                     class="grade-btn"
                                     onclick="openGrading(${booking.id})">
-                                    Grade Interview
-                                </button>
 
-                                ${
-                                    booking.studentId
-                                        ? `
-                                            <button
-                                                class="no-show-btn"
-                                                onclick="markNoShow(${booking.id}, '${booking.studentId}')">
-                                                Mark No-Show
-                                            </button>
-                                        `
-                                        : ''
-                                }
+                                    Grade Interview
+
+                                </button>
 
                             </div>
 
                         </div>
+                    `;
+
+                });
+
+
+                container.innerHTML = html;
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                document.getElementById("sessionList").innerHTML = `
+                    <div class="empty-state">
+
+                        <h3>
+                            Unable to Load Sessions
+                        </h3>
+
+                        <p>
+                            Please make sure the server is running.
+                        </p>
 
                     </div>
                 `;
 
             });
 
-            container.innerHTML = html;
-
-        })
-
-        .catch(error => {
-
-            console.error(error);
-
-            document.getElementById("sessionList").innerHTML = `
-                <div class="empty-state">
-
-                    <h3>
-                        Unable to Load Sessions
-                    </h3>
-
-                    <p>
-                        Please make sure the server is running.
-                    </p>
-
-                </div>
-            `;
-
-        });
-}
-
-
-/* Mark a student as a no-show */
-
-function markNoShow(bookingId, studentId) {
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to mark this student as a no-show?"
-        );
-
-    if (!confirmed) {
-        return;
     }
 
-    fetch("/api/no-show/blacklist", {
 
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-            bookingId,
-            studentId
-        })
-
-    })
-
-        .then(response => response.json())
-
-        .then(data => {
-
-            alert(data.message);
-
-            if (data.success) {
-                loadSessions();
-            }
-
-        })
-
-        .catch(error => {
-
-            console.error(
-                "Error marking no-show:",
-                error
-            );
-
-            alert(
-                "Unable to record the no-show."
-            );
-
-        });
-}
+    let currentBookingId = null;
 
 
-let currentBookingId = null;
+    function openGrading(bookingId) {
 
-
-function openGrading(bookingId) {
-
-    currentBookingId = bookingId;
-
-
+        currentBookingId = bookingId;
 
 
         fetch("/api/bookings")

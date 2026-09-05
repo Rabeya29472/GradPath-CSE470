@@ -63,6 +63,7 @@
                     <option value="5">5+</option>
                     <option value="8">8+</option>
                 </select>
+                <input id="studentId" placeholder="Student ID" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid #e2e8f0; font-family:inherit; box-sizing:border-box;">
                 <button onclick="match()">Find Mentors</button>
             </div>
             <div id="results" class="grid"></div>
@@ -70,28 +71,29 @@
     </div>
 
     <script>
-        const mentors = [
-            { name: "Sarah Ahmed", goal: "Software Engineer", industry: "AI", exp: 6, company: "Google", title: "Senior SWE", skills: ["Java", "Node", "React"] },
-            { name: "Rakib Hasan", goal: "Software Engineer", industry: "FinTech", exp: 4, company: "bKash", title: "Backend Engineer", skills: ["Java", "Spring", "SQL"] },
-            { name: "Nabila Noor", goal: "Data Analyst", industry: "FinTech", exp: 5, company: "Mastercard", title: "Data Analyst", skills: ["Python", "SQL", "Power BI"] },
-            { name: "Ayan Khan", goal: "UI Designer", industry: "EdTech", exp: 7, company: "10 Minute School", title: "Product Designer", skills: ["Figma", "UX", "Design"] },
-            { name: "Tanvir Islam", goal: "Cybersecurity", industry: "Healthcare", exp: 9, company: "Cisco", title: "Security Engineer", skills: ["SOC", "Network", "Linux"] }
-        ];
+        let mentors = [];
 
-        function match() {
+        async function loadMentors() {
+            try {
+                const res = await fetch('/api/mentors');
+                if (!res.ok) {
+                    throw new Error('Failed to load mentor data');
+                }
+                mentors = await res.json();
+                match();
+            } catch (error) {
+                document.getElementById('results').innerHTML = '<p>Unable to load mentor data. Please try again later.</p>';
+            }
+        }
+
+        async function match() {
             const g = document.getElementById('goal').value;
             const i = document.getElementById('industry').value;
             const e = +document.getElementById('exp').value;
             const out = document.getElementById('results');
             out.innerHTML = '';
-
-            const arr = mentors.map(m => {
-                let s = 0;
-                if (m.goal === g) s += 50;
-                if (m.industry === i) s += 30;
-                if (m.exp >= e) s += 20;
-                return { ...m, score: s };
-            }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
+            const response = await fetch(`/api/mentor-matchmaker?goal=${encodeURIComponent(g)}&industry=${encodeURIComponent(i)}&experience=${e}`);
+            const arr = await response.json();
 
             if (!arr.length) {
                 out.innerHTML = '<p>No mentors found. Try a broader filter.</p>';
@@ -109,12 +111,27 @@
                         <p>Experience: ${m.exp} years</p>
                         <p>Skills: ${m.skills.join(', ')}</p>
                         <div class="score">${m.score}%</div>
-                        <button class="request-btn" onclick="alert('Mentorship request sent to ${m.name}!')">Request Mentorship</button>
+                        <button class="request-btn" onclick="requestMentorship('${m.name.replace(/'/g, "\\'")}')">Request Mentorship</button>
                     </div>`;
             });
         }
 
-        match();
+        async function requestMentorship(mentorName) {
+            const studentId = document.getElementById('studentId').value.trim();
+            if (!studentId) {
+                alert('Please enter your student ID before requesting mentorship.');
+                return;
+            }
+            const response = await fetch('/api/mentor-matchmaker/requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId, mentorName })
+            });
+            const data = await response.json();
+            alert(data.message);
+        }
+
+        loadMentors();
     </script>
 </body>
 </html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Project Review</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio-review.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">🚀 GradPath Portal</div>
+        <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+        <a href="booking.html" class="nav-btn">📅 Interview Booking</a>
+        <a href="resume.html" class="nav-btn">📄 Resume Critique Queue</a>
+        <a href="portfolio-review.html" class="nav-btn active">💻 Portfolio Project Review</a>
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+        <a href="mentor-review.html" class="nav-btn">📝 Resume Review Panel</a>
+    </aside>
+    <main class="workspace">
+        <h2>Portfolio Project Review Stager</h2>
+        <p class="subtitle">Share an active coding project for architecture, design, and implementation feedback from senior developers.</p>
+        <div class="page-grid">
+            <section class="card">
+                <h3>Stage a Project for Review</h3>
+                <label for="studentName">Student Name</label>
+                <input id="studentName" placeholder="Enter your full name">
+                <label for="studentId">Student ID</label>
+                <input id="studentId" placeholder="Enter your student ID">
+                <label for="projectName">Project Name</label>
+                <input id="projectName" placeholder="e.g. Campus marketplace API">
+                <label for="projectUrl">Live Project URL</label>
+                <input id="projectUrl" type="url" placeholder="https://your-project.example.com">
+                <label for="repositoryUrl">Repository URL <span style="font-weight:400;color:#64748b">(optional)</span></label>
+                <input id="repositoryUrl" type="url" placeholder="https://github.com/you/project">
+                <label for="reviewType">Review Focus</label>
+                <select id="reviewType">
+                    <option value="">Choose a review focus</option>
+                    <option>Architecture</option>
+                    <option>UI/UX Design</option>
+                    <option>Code Quality</option>
+                    <option>Full Review</option>
+                </select>
+                <label for="description">What should the reviewer inspect?</label>
+                <textarea id="description" rows="5" placeholder="Describe the project, current challenge, and the feedback you want."></textarea>
+                <button id="submitReview">Submit Project for Review</button>
+                <div id="statusMessage" role="status"></div>
+            </section>
+            <aside class="card">
+                <h3>Review Readiness</h3>
+                <ul class="guideline-list">
+                    <li>Use a live, accessible project link.</li>
+                    <li>Point reviewers toward one concrete challenge.</li>
+                    <li>Add a repository when implementation detail matters.</li>
+                    <li>Requests are staged for senior developer feedback.</li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <script src="portfolio-review.js"></script>
+</body>
+</html>
