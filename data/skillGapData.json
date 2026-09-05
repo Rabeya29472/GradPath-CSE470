@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1788613771353",
+        "studentId": "22201594",
+        "studentMajor": "CSE",
+        "studentGradYear": 2025,
+        "assessedBy": "Alumni Mentor",
+        "skillGaps": [
+            "Python",
+            "AWS / Cloud",
+            "Data Analysis"
+        ],
+        "recommendation": "your current profile looks good but do consider adding these up",
+        "createdAt": "2026-09-05T13:09:31.353Z"
+    },
+    {
+        "id": "1788615488795",
+        "studentId": "22201594",
+        "studentMajor": "CSE",
+        "studentGradYear": 2025,
+        "alumniId": 1708240007007,
+        "alumniName": "Mahmudur Rahman",
+        "alumniCompany": "Optimizely",
+        "alumniJobTitle": "Machine Learning Engineer",
+        "skillGaps": [
+            "Python",
+            "Git / GitHub"
+        ],
+        "recommendation": "do",
+        "createdAt": "2026-09-05T13:38:08.795Z"
+    }
+]
