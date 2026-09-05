@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Employability Dossier Exporter</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="dossier.css">
+</head>
+<body>
+<aside class="sidebar"><div class="brand">🚀 GradPath Portal</div><a href="index.html" class="nav-btn">🏠 Home Hub</a><a href="mock-interview-readiness.html" class="nav-btn">📊 Interview Readiness</a><a href="resume.html" class="nav-btn">📄 Resume Critique Queue</a><a href="employability-dossier.html" class="nav-btn active">📦 Employability Dossier</a></aside>
+<main class="workspace"><h2>Comprehensive Student Employability Dossier</h2><p class="subtitle">Compile your interview scorecards, verified resume versions, and mentor recommendations into one professional readiness packet.</p>
+<section class="card"><h3>Find Your Readiness Records</h3><label for="studentId">Student ID</label><input id="studentId" placeholder="Enter your student ID"><button id="previewBtn">Preview Dossier</button><button id="exportBtn" hidden>Download Professional PDF</button><div id="message" role="status"></div></section>
+<section id="summary" class="card" hidden><h3 id="studentHeading"></h3><div class="summary-grid"><div class="metric"><strong id="scorecardCount">0</strong><span>Mock scorecards</span></div><div class="metric"><strong id="resumeCount">0</strong><span>Verified resume versions</span></div><div class="metric"><strong id="letterCount">0</strong><span>Recommendation letters</span></div></div><ul class="record-list" id="recordList"></ul></section>
+</main><script src="employability-dossier.js"></script>
+</body></html>

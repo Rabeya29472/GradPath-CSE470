@@ -830,6 +830,7 @@
                 return;
             }
 
+<<<<<<< Updated upstream
             const newQuestion = {
                 company: company,
                 role: role,
@@ -872,13 +873,42 @@
             } catch (error) {
                 showToast(error.message || 'Question could not be submitted.', 'error');
             }
+=======
+            const response = await fetch('/api/question-vault', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ company, role, question, difficulty, topic, experience, verified })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                showToast(data.message || 'Could not submit question.', 'error');
+                return;
+            }
+
+            questions.unshift(data.question);
+            closeModal();
+            document.getElementById('qCompany').value = '';
+            document.getElementById('qRole').value = '';
+            document.getElementById('qQuestion').value = '';
+            document.getElementById('qDifficulty').value = '';
+            document.getElementById('qTopic').value = '';
+            document.getElementById('qExperience').value = '';
+            document.getElementById('qVerified').checked = true;
+            
+            populateCompanyFilter();
+            renderQuestions(questions);
+            showToast('✅ Question submitted successfully!');
+>>>>>>> Stashed changes
         }
 
         // ============================================================
         // HELPERS
         // ============================================================
         function markHelpful(id) {
-            showToast('👍 Thanks! This question was marked as helpful.');
+            fetch(`/api/question-vault/${id}/helpful`, { method: 'POST' })
+                .then(response => response.json())
+                .then(() => showToast('👍 Thanks! This question was marked as helpful.'))
+                .catch(() => showToast('Could not mark this question helpful.', 'error'));
         }
 
         function showToast(message, type = 'success') {
@@ -898,7 +928,22 @@
         // ============================================================
         // INIT
         // ============================================================
+<<<<<<< Updated upstream
         loadQuestions();
+=======
+        fetch('/api/question-vault')
+            .then(response => response.json())
+            .then(data => {
+                questions = data;
+                populateCompanyFilter();
+                renderQuestions(questions);
+            })
+            .catch(() => {
+                populateCompanyFilter();
+                renderQuestions(questions);
+                showToast('Could not load shared questions.', 'error');
+            });
+>>>>>>> Stashed changes
     </script>
 
 </body>
