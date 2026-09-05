@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradPath - Alumni Career Profile Directory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #0f172a;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --border-color: #e2e8f0;
+            --success-bg: #dcfce7;
+            --success-text: #166534;
+            --danger: #dc2626;
+            --danger-hover: #b91c1c;
+            --danger-light: #fef2f2;
+            --badge-blue-bg: #dbeafe;
+            --badge-blue-text: #1e40af;
+            --badge-purple-bg: #f3e8ff;
+            --badge-purple-text: #6b21a8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-md: 0 4px 12px rgba(15,23,42,0.06);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-group-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin: 15px 0 8px 12px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        .nav-btn.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Workspace Area */
+        .workspace {
+            flex: 1;
+            padding: 40px 50px;
+            overflow-y: auto;
+            max-width: 1400px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-size: 0.95rem;
+            max-width: 650px;
+            line-height: 1.5;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: var(--text-dark);
+            border-color: var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-hover);
+        }
+
+        .btn-danger-outline {
+            background: #ffffff;
+            color: var(--danger);
+            border-color: #fecaca;
+        }
+
+        .btn-danger-outline:hover {
+            background: var(--danger-light);
+            border-color: var(--danger);
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-info .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-info .stat-value {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Main Container Card */
+        .main-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Filter Section */
+        .filters-container {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .search-bar-wrap {
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #ffffff;
+            transition: border-color 0.15s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .filter-field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .filter-field select,
+        .filter-field input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            font-family: inherit;
+            background: #ffffff;
+            color: var(--text-dark);
+            transition: border-color 0.15s;
+        }
+
+        .filter-field select:focus,
+        .filter-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Results Bar & Controls */
+        .results-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .results-count {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .results-count strong {
+            color: var(--text-dark);
+        }
+
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+
+        .view-btn.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Table View */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        thead {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            padding: 14px 16px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Alumni Info in Table */
+        .alumni-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #bfdbfe;
+        }
+
+        .alumni-name {
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .alumni-sub {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        /* Badges & Tags */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .badge-year {
+            background: var(--badge-blue-bg);
+            color: var(--badge-blue-text);
+        }
+
+        .badge-major {
+            background: var(--badge-purple-bg);
+            color: var(--badge-purple-text);
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .badge-verified {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .badge-tag {
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .company-pill {
+            font-weight: 700;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .job-title-pill {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .action-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+
+        /* Grid View */
+        .grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: #cbd5e1;
+        }
+
+        .profile-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .profile-card-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .card-job {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 4px 0 2px 0;
+        }
+
+        .card-company {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-details-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin: 14px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.82rem;
+        }
+
+        .card-details-box .detail-item strong {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .card-details-box .detail-item span {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .card-skills-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .profile-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 14px;
+            margin-top: auto;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8fafc;
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-color);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 20px;
+        }
+
+        /* Loading Spinner */
+        .loading-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modals */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-backdrop.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 640px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: modalSlide 0.2s ease;
+        }
+
+        .modal-box-sm {
+            max-width: 440px;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(15px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 22px 26px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-dark);
+            background: #f1f5f9;
+        }
+
+        .modal-body {
+            padding: 26px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-full {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group label span.req {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #ffffff;
+            transition: all 0.15s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-help {
+            font-size: 0.76rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .modal-footer {
+            padding: 18px 26px;
+            border-top: 1px solid var(--border-color);
+            background: #f8fafc;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            border-bottom-left-radius: var(--radius-lg);
+            border-bottom-right-radius: var(--radius-lg);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--text-dark);
+            color: #ffffff;
+            padding: 14px 22px;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: #065f46;
+            border: 1px solid #059669;
+        }
+
+        .toast.error {
+            background: #991b1b;
+            border: 1px solid #dc2626;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 20px;
+            }
+            .workspace {
+                padding: 24px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-full {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">🚀 GradPath Portal</div>
+        
+        <div class="nav-group-title">Main Portal</div>
+        <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+        <a href="alumni-career-profile-directory.html" class="nav-btn active">🎓 Alumni Career Directory</a>
+        <a href="Exclusive_Alumni_Referral_Job_Board.html" class="nav-btn">💼 Referral Job Board</a>
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+        <a href="booking.html" class="nav-btn">📅 Mock Interview Booking</a>
+        
+        <div class="nav-group-title">Career Tools</div>
+        <a href="question-vault.html" class="nav-btn">📚 Question Vault</a>
+        <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator</a>
+        <a href="mentor-review.html" class="nav-btn">📝 Resume Reviewer</a>
+        <a href="verify.html" class="nav-btn">🛡️ Verification Portal</a>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title">
+                <h1>🎓 Alumni Career Profile Directory</h1>
+                <p>A searchable database where alumni list their graduation year, specific major, current employer, and industry job title to guide current students and fellow graduates.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" id="btnRefresh" onclick="loadProfiles()">↻ Refresh</button>
+                <button class="btn btn-primary" id="btnOpenAddModal" onclick="openAddModal()">+ Add Alumni Profile</button>
+            </div>
+        </header>
+
+        <!-- Stats Overview Cards -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Total Alumni</div>
+                    <div class="stat-value" id="statTotalAlumni">0</div>
+                </div>
+                <div class="stat-icon">👥</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Top Employers</div>
+                    <div class="stat-value" id="statTotalCompanies">0</div>
+                </div>
+                <div class="stat-icon">🏢</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Academic Majors</div>
+                    <div class="stat-value" id="statTotalMajors">0</div>
+                </div>
+                <div class="stat-icon">🎓</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Verified Alumni</div>
+                    <div class="stat-value" id="statVerifiedPercent">100%</div>
+                </div>
+                <div class="stat-icon">🛡️</div>
+            </div>
+        </section>
+
+        <!-- Directory Container -->
+        <section class="main-card">
+            
+            <!-- Filters Matrix -->
+            <div class="filters-container">
+                <div class="search-bar-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search across alumni name, employer, job title, major, industry, or skills..." oninput="handleFilterChange()">
+                </div>
+
+                <div class="filter-grid">
+                    <!-- Graduation Year Filter -->
+                    <div class="filter-field">
+                        <label for="filterYear">Graduation Year</label>
+                        <select id="filterYear" onchange="handleFilterChange()">
+                            <option value="">All Graduation Years</option>
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                        </select>
+                    </div>
+
+                    <!-- Specific Major Filter -->
+                    <div class="filter-field">
+                        <label for="filterMajor">Specific Major</label>
+                        <select id="filterMajor" onchange="handleFilterChange()">
+                            <option value="">All Specific Majors</option>
+                            <option value="CSE">Computer Science & Engineering (CSE)</option>
+                            <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+                            <option value="BBA">Bachelor of Business Administration (BBA)</option>
+                            <option value="SWE">Software Engineering (SWE)</option>
+                            <option value="Data">Data Science & Analytics</option>
+                            <option value="ECE">Electronic & Communication (ECE)</option>
+                            <option value="Economics">Economics</option>
+                        </select>
+                    </div>
+
+                    <!-- Current Employer Filter -->
+                    <div class="filter-field">
+                        <label for="filterCompany">Current Employer</label>
+                        <input type="text" id="filterCompany" placeholder="e.g. Google, bKash, Microsoft" oninput="handleFilterChange()">
+                    </div>
+
+                    <!-- Industry Job Title Filter -->
+                    <div class="filter-field">
+                        <label for="filterJob">Industry Job Title</label>
+                        <input type="text" id="filterJob" placeholder="e.g. Software Engineer, Analyst" oninput="handleFilterChange()">
+                    </div>
+
+                    <!-- Industry Sector Filter -->
+                    <div class="filter-field">
+                        <label for="filterIndustry">Industry Field</label>
+                        <select id="filterIndustry" onchange="handleFilterChange()">
+                            <option value="">All Industry Sectors</option>
+                            <option value="Software">Software & Cloud</option>
+                            <option value="FinTech">FinTech & Banking</option>
+                            <option value="AI">AI & Data Science</option>
+                            <option value="Hardware">Hardware & Embedded</option>
+                            <option value="E-Commerce">E-Commerce & Logistics</option>
+                            <option value="Telecommunications">Telecommunications</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Bar -->
+            <div class="results-bar">
+                <div class="results-count" id="resultsCount">
+                    Loading directory profiles...
+                </div>
+                <div class="view-controls">
+                    <button class="btn-sm btn-outline" onclick="resetFilters()">Clear Filters</button>
+                    <button class="view-btn active" id="viewBtnTable" onclick="setViewMode('table')">📄 Table View</button>
+                    <button class="view-btn" id="viewBtnGrid" onclick="setViewMode('grid')">🔲 Card View</button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingIndicator" class="loading-state">
+                <div class="spinner"></div>
+                <p>Fetching real-time alumni records from API...</p>
+            </div>
+
+            <!-- Table View Container -->
+            <div class="table-responsive" id="tableViewContainer" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Alumni Name</th>
+                            <th>Graduation Year</th>
+                            <th>Specific Major</th>
+                            <th>Current Employer</th>
+                            <th>Industry Job Title</th>
+                            <th>Industry Field</th>
+                            <th>Status</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="directoryTableBody">
+                        <!-- Populated dynamically via JS API -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Grid View Container -->
+            <div class="grid-view" id="gridViewContainer" style="display: none;">
+                <!-- Populated dynamically via JS API -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">🔎</div>
+                <h3>No Matching Alumni Found</h3>
+                <p>Try adjusting your search criteria or clear your current filters to view all alumni profiles.</p>
+                <button class="btn btn-primary" onclick="resetFilters()">Reset All Filters</button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal: Add Alumni Information -->
+    <div class="modal-backdrop" id="addAlumniModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>🎓 Add Graduated Alumni Career Profile</h2>
+                <button class="modal-close-btn" onclick="closeAddModal()">&times;</button>
+            </div>
+
+            <form id="addAlumniForm" onsubmit="handleFormSubmit(event)">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        
+                        <!-- Full Name -->
+                        <div class="form-group form-full">
+                            <label for="formName">Alumni Full Name <span class="req">*</span></label>
+                            <input type="text" id="formName" class="form-control" placeholder="e.g. Tanvir Ahmed" required>
+                        </div>
+
+                        <!-- Graduation Year -->
+                        <div class="form-group">
+                            <label for="formGradYear">Graduation Year <span class="req">*</span></label>
+                            <select id="formGradYear" class="form-control" required>
+                                <option value="">Select Year</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                            </select>
+                        </div>
+
+                        <!-- Student ID (Optional) -->
+                        <div class="form-group">
+                            <label for="formStudentId">Student ID <span style="color:var(--text-light); font-weight:normal;">(Optional)</span></label>
+                            <input type="text" id="formStudentId" class="form-control" placeholder="e.g. 22201594">
+                            <div class="form-help">Verified against university records if available</div>
+                        </div>
+
+                        <!-- Specific Major -->
+                        <div class="form-group form-full">
+                            <label for="formMajor">Specific Major <span class="req">*</span></label>
+                            <select id="formMajor" class="form-control" required>
+                                <option value="">Select Specific Major</option>
+                                <option value="Computer Science & Engineering (CSE)">Computer Science & Engineering (CSE)</option>
+                                <option value="Electrical & Electronic Engineering (EEE)">Electrical & Electronic Engineering (EEE)</option>
+                                <option value="Bachelor of Business Administration (BBA)">Bachelor of Business Administration (BBA)</option>
+                                <option value="Software Engineering (SWE)">Software Engineering (SWE)</option>
+                                <option value="Data Science & Analytics">Data Science & Analytics</option>
+                                <option value="Electronic & Communication (ECE)">Electronic & Communication (ECE)</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Pharmacy">Pharmacy</option>
+                                <option value="English & Humanities">English & Humanities</option>
+                            </select>
+                        </div>
+
+                        <!-- Current Employer -->
+                        <div class="form-group">
+                            <label for="formCompany">Current Employer <span class="req">*</span></label>
+                            <input type="text" id="formCompany" class="form-control" placeholder="e.g. Google, bKash, Brain Station 23" required>
+                        </div>
+
+                        <!-- Industry Job Title -->
+                        <div class="form-group">
+                            <label for="formJobTitle">Industry Job Title <span class="req">*</span></label>
+                            <input type="text" id="formJobTitle" class="form-control" placeholder="e.g. Senior Software Engineer" required>
+                        </div>
+
+                        <!-- Industry Sector -->
+                        <div class="form-group form-full">
+                            <label for="formIndustry">Industry Sector</label>
+                            <select id="formIndustry" class="form-control">
+                                <option value="Software & Cloud">Software & Cloud</option>
+                                <option value="FinTech & Banking">FinTech & Banking</option>
+                                <option value="AI & Data Science">AI & Data Science</option>
+                                <option value="Hardware & Embedded Systems">Hardware & Embedded Systems</option>
+                                <option value="E-Commerce & Logistics">E-Commerce & Logistics</option>
+                                <option value="Telecommunications">Telecommunications</option>
+                                <option value="Cybersecurity">Cybersecurity</option>
+                                <option value="Consulting & Advisory">Consulting & Advisory</option>
+                                <option value="Education & EdTech">Education & EdTech</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- LinkedIn URL -->
+                        <div class="form-group">
+                            <label for="formLinkedin">LinkedIn Profile <span style="color:var(--text-light); font-weight:normal;">(Optional)</span></label>
+                            <input type="url" id="formLinkedin" class="form-control" placeholder="https://linkedin.com/in/username">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="formEmail">Contact Email <span style="color:var(--text-light); font-weight:normal;">(Optional)</span></label>
+                            <input type="email" id="formEmail" class="form-control" placeholder="name@example.com">
+                        </div>
+
+                        <!-- Core Skills -->
+                        <div class="form-group form-full">
+                            <label for="formSkills">Key Skills & Focus Areas <span style="color:var(--text-light); font-weight:normal;">(Comma-separated)</span></label>
+                            <input type="text" id="formSkills" class="form-control" placeholder="e.g. React, Node.js, Cloud, Python, System Design">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeAddModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitProfile">Save & Publish Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Edit Alumni Information -->
+    <div class="modal-backdrop" id="editAlumniModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>✏️ Edit Alumni Career Profile</h2>
+                <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
+            </div>
+
+            <form id="editAlumniForm" onsubmit="handleEditFormSubmit(event)">
+                <input type="hidden" id="editProfileId">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        
+                        <!-- Full Name -->
+                        <div class="form-group form-full">
+                            <label for="editFormName">Alumni Full Name <span class="req">*</span></label>
+                            <input type="text" id="editFormName" class="form-control" placeholder="e.g. Tanvir Ahmed" required>
+                        </div>
+
+                        <!-- Graduation Year -->
+                        <div class="form-group">
+                            <label for="editFormGradYear">Graduation Year <span class="req">*</span></label>
+                            <select id="editFormGradYear" class="form-control" required>
+                                <option value="">Select Year</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                            </select>
+                        </div>
+
+                        <!-- Student ID (Optional) -->
+                        <div class="form-group">
+                            <label for="editFormStudentId">Student ID <span style="color:var(--text-light); font-weight:normal;">(Optional)</span></label>
+                            <input type="text" id="editFormStudentId" class="form-control" placeholder="e.g. 22201594">
+                        </div>
+
+                        <!-- Specific Major -->
+                        <div class="form-group form-full">
+                            <label for="editFormMajor">Specific Major <span class="req">*</span></label>
+                            <select id="editFormMajor" class="form-control" required>
+                                <option value="">Select Specific Major</option>
+                                <option value="Computer Science & Engineering (CSE)">Computer Science & Engineering (CSE)</option>
+                                <option value="Electrical & Electronic Engineering (EEE)">Electrical & Electronic Engineering (EEE)</option>
+                                <option value="Bachelor of Business Administration (BBA)">Bachelor of Business Administration (BBA)</option>
+                                <option value="Software Engineering (SWE)">Software Engineering (SWE)</option>
+                                <option value="Data Science & Analytics">Data Science & Analytics</option>
+                                <option value="Electronic & Communication (ECE)">Electronic & Communication (ECE)</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Pharmacy">Pharmacy</option>
+                                <option value="English & Humanities">English & Humanities</option>
+                            </select>
+                        </div>
+
+                        <!-- Current Employer -->
+                        <div class="form-group">
+                            <label for="editFormCompany">Current Employer <span class="req">*</span></label>
+                            <input type="text" id="editFormCompany" class="form-control" placeholder="e.g. Google, bKash, Brain Station 23" required>
+                        </div>
+
+                        <!-- Industry Job Title -->
+                        <div class="form-group">
+                            <label for="editFormJobTitle">Industry Job Title <span class="req">*</span></label>
+                            <input type="text" id="editFormJobTitle" class="form-control" placeholder="e.g. Senior Software Engineer" required>
+                        </div>
+
+                        <!-- Industry Sector -->
+                        <div class="form-group form-full">
+                            <label for="editFormIndustry">Industry Sector</label>
+                            <select id="editFormIndustry" class="form-control">
+                                <option value="Software & Cloud">Software & Cloud</option>
+                                <option value="FinTech & Banking">FinTech & Banking</option>
+                                <option value="AI & Data Science">AI & Data Science</option>
+                                <option value="Hardware & Embedded Systems">Hardware & Embedded Systems</option>
+                                <option value="E-Commerce & Logistics">E-Commerce & Logistics</option>
+                                <option value="Telecommunications">Telecommunications</option>
+                                <option value="Cybersecurity">Cybersecurity</option>
+                                <option value="Consulting & Advisory">Consulting & Advisory</option>
+                                <option value="Education & EdTech">Education & EdTech</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- LinkedIn URL -->
+                        <div class="form-group">
+                            <label for="editFormLinkedin">LinkedIn Profile <span style="color:var(--text-light); font-weight:normal;">(Optional)</span></label>
+                            <input type="url" id="editFormLinkedin" class="form-control" placeholder="https://linkedin.com/in/username">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="editFormEmail">Contact Email <span style="color:var(--text-light); font-weight:normal;">(Optional)</span></label>
+                            <input type="email" id="editFormEmail" class="form-control" placeholder="name@example.com">
+                        </div>
+
+                        <!-- Core Skills -->
+                        <div class="form-group form-full">
+                            <label for="editFormSkills">Key Skills & Focus Areas <span style="color:var(--text-light); font-weight:normal;">(Comma-separated)</span></label>
+                            <input type="text" id="editFormSkills" class="form-control" placeholder="e.g. React, Node.js, Cloud, Python, System Design">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnUpdateProfile">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Delete Confirmation -->
+    <div class="modal-backdrop" id="deleteConfirmModal">
+        <div class="modal-box modal-box-sm">
+            <div class="modal-header">
+                <h2>🗑️ Delete Alumni Profile</h2>
+                <button class="modal-close-btn" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.95rem; color: var(--text-dark); margin-bottom: 12px;">
+                    Are you sure you want to delete the profile for <strong id="deleteAlumniName"></strong>?
+                </p>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    This will permanently remove their record from the searchable directory. This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmDelete" onclick="executeDeleteProfile()">Delete Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: View Alumni Profile Detail -->
+    <div class="modal-backdrop" id="viewDetailModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Alumni Career Profile</h2>
+                <button class="modal-close-btn" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="detailModalBody">
+                <!-- Populated dynamically -->
+            </div>
+            <div class="modal-footer" id="detailModalFooter">
+                <!-- Populated dynamically with Edit, Delete, Close -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast">
+        <span id="toastIcon">✓</span>
+        <span id="toastMessage">Action completed successfully.</span>
+    </div>
+
+    <script>
+        // State variables
+        let allAlumniProfiles = [];
+        let currentViewMode = 'table'; // 'table' or 'grid'
+        let pendingDeleteId = null;
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const filterYear = document.getElementById('filterYear');
+        const filterMajor = document.getElementById('filterMajor');
+        const filterCompany = document.getElementById('filterCompany');
+        const filterJob = document.getElementById('filterJob');
+        const filterIndustry = document.getElementById('filterIndustry');
+        const resultsCount = document.getElementById('resultsCount');
+        const tableViewContainer = document.getElementById('tableViewContainer');
+        const gridViewContainer = document.getElementById('gridViewContainer');
+        const emptyState = document.getElementById('emptyState');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const directoryTableBody = document.getElementById('directoryTableBody');
+        const addAlumniModal = document.getElementById('addAlumniModal');
+        const editAlumniModal = document.getElementById('editAlumniModal');
+        const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+        const viewDetailModal = document.getElementById('viewDetailModal');
+
+        // Fetch alumni profiles from API on page load
+        async function loadProfiles() {
+            try {
+                showLoading(true);
+                const response = await fetch('/api/alumni-profiles');
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+                allAlumniProfiles = await response.json();
+                updateStats(allAlumniProfiles);
+                renderProfiles();
+            } catch (error) {
+                console.error('Failed to load profiles:', error);
+                showToast('Failed to load alumni profiles from backend API.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Show/Hide Loading
+        function showLoading(isLoading) {
+            if (isLoading) {
+                loadingIndicator.style.display = 'block';
+                tableViewContainer.style.display = 'none';
+                gridViewContainer.style.display = 'none';
+                emptyState.style.display = 'none';
+            } else {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Update Stats Counters
+        function updateStats(profiles) {
+            document.getElementById('statTotalAlumni').innerText = profiles.length;
+            
+            const companies = new Set(profiles.map(p => p.company && p.company.trim().toLowerCase()).filter(Boolean));
+            document.getElementById('statTotalCompanies').innerText = companies.size;
+
+            const majors = new Set(profiles.map(p => p.major && p.major.trim().toLowerCase()).filter(Boolean));
+            document.getElementById('statTotalMajors').innerText = majors.size;
+
+            const verifiedCount = profiles.filter(p => p.verified).length;
+            const pct = profiles.length ? Math.round((verifiedCount / profiles.length) * 100) : 100;
+            document.getElementById('statVerifiedPercent').innerText = `${pct}%`;
+        }
+
+        // Filter and Render profiles
+        function renderProfiles() {
+            const search = searchInput.value.toLowerCase().trim();
+            const year = filterYear.value.trim();
+            const major = filterMajor.value.toLowerCase().trim();
+            const company = filterCompany.value.toLowerCase().trim();
+            const job = filterJob.value.toLowerCase().trim();
+            const industry = filterIndustry.value.toLowerCase().trim();
+
+            const filtered = allAlumniProfiles.filter(p => {
+                const matchesSearch = !search || 
+                    (p.name && p.name.toLowerCase().includes(search)) ||
+                    (p.company && p.company.toLowerCase().includes(search)) ||
+                    (p.jobTitle && p.jobTitle.toLowerCase().includes(search)) ||
+                    (p.major && p.major.toLowerCase().includes(search)) ||
+                    (p.industry && p.industry.toLowerCase().includes(search)) ||
+                    (Array.isArray(p.skills) && p.skills.some(s => s.toLowerCase().includes(search)));
+
+                const matchesYear = !year || String(p.gradYear) === year;
+                const matchesMajor = !major || (p.major && p.major.toLowerCase().includes(major));
+                const matchesCompany = !company || (p.company && p.company.toLowerCase().includes(company));
+                const matchesJob = !job || (p.jobTitle && p.jobTitle.toLowerCase().includes(job));
+                const matchesIndustry = !industry || (p.industry && p.industry.toLowerCase().includes(industry));
+
+                return matchesSearch && matchesYear && matchesMajor && matchesCompany && matchesJob && matchesIndustry;
+            });
+
+            resultsCount.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${allAlumniProfiles.length}</strong> alumni profiles`;
+
+            if (filtered.length === 0) {
+                tableViewContainer.style.display = 'none';
+                gridViewContainer.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            if (currentViewMode === 'table') {
+                renderTableView(filtered);
+                tableViewContainer.style.display = 'block';
+                gridViewContainer.style.display = 'none';
+            } else {
+                renderGridView(filtered);
+                gridViewContainer.style.display = 'grid';
+                tableViewContainer.style.display = 'none';
+            }
+        }
+
+        // Render Table View
+        function renderTableView(profiles) {
+            directoryTableBody.innerHTML = '';
+            profiles.forEach(p => {
+                const initials = p.name ? p.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'AL';
+                const skillsBadges = Array.isArray(p.skills) && p.skills.length 
+                    ? p.skills.slice(0, 3).map(s => `<span class="badge-tag">${escapeHtml(s)}</span>`).join(' ')
+                    : '';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="alumni-user">
+                            <div class="avatar-circle">${initials}</div>
+                            <div>
+                                <div class="alumni-name">
+                                    ${escapeHtml(p.name)}
+                                </div>
+                                <div class="alumni-sub">
+                                    ${p.studentId ? `ID: ${escapeHtml(p.studentId)}` : 'Alumni'}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-year">Class of ${escapeHtml(p.gradYear)}</span>
+                    </td>
+                    <td>
+                        <span class="badge badge-major" title="${escapeHtml(p.major)}">${escapeHtml(p.major)}</span>
+                    </td>
+                    <td>
+                        <div class="company-pill">
+                            🏢 ${escapeHtml(p.company)}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="job-title-pill">
+                            ${escapeHtml(p.jobTitle)}
+                        </div>
+                        <div style="margin-top: 4px; display: flex; gap: 4px; flex-wrap: wrap;">
+                            ${skillsBadges}
+                        </div>
+                    </td>
+                    <td>
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">
+                            ${escapeHtml(p.industry || 'Technology')}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge badge-verified">✓ Verified</span>
+                    </td>
+                    <td style="text-align: right;">
+                        <div class="action-btn-group" style="justify-content: flex-end;">
+                            <button class="btn btn-outline btn-sm" onclick="viewProfileDetail(${p.id})" title="View Details">
+                                👁️ View
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="openEditModal(${p.id})" title="Edit Profile">
+                                ✏️ Edit
+                            </button>
+                            <button class="btn btn-danger-outline btn-sm" onclick="confirmDeleteProfile(${p.id})" title="Delete Profile">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </td>
+                `;
+                directoryTableBody.appendChild(tr);
+            });
+        }
+
+        // Render Card/Grid View
+        function renderGridView(profiles) {
+            gridViewContainer.innerHTML = '';
+            profiles.forEach(p => {
+                const initials = p.name ? p.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'AL';
+                const skillsChips = Array.isArray(p.skills) && p.skills.length
+                    ? p.skills.map(s => `<span class="badge-tag">${escapeHtml(s)}</span>`).join(' ')
+                    : '<span style="font-size:0.75rem; color:var(--text-light);">No tags added</span>';
+
+                const card = document.createElement('div');
+                card.className = 'profile-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="profile-card-header">
+                            <div class="profile-card-user">
+                                <div class="avatar-circle" style="width: 44px; height: 44px; font-size: 1rem;">${initials}</div>
+                                <div>
+                                    <div class="card-name">${escapeHtml(p.name)}</div>
+                                    <div class="card-job">${escapeHtml(p.jobTitle)}</div>
+                                    <div class="card-company">🏢 ${escapeHtml(p.company)}</div>
+                                </div>
+                            </div>
+                            <span class="badge badge-verified">✓ Verified</span>
+                        </div>
+
+                        <div class="card-details-box">
+                            <div class="detail-item">
+                                <strong>Graduation Year</strong>
+                                <span>Class of ${escapeHtml(p.gradYear)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Industry Sector</strong>
+                                <span>${escapeHtml(p.industry || 'Technology')}</span>
+                            </div>
+                            <div class="detail-item" style="grid-column: span 2;">
+                                <strong>Specific Major</strong>
+                                <span>${escapeHtml(p.major)}</span>
+                            </div>
+                        </div>
+
+                        <div class="card-skills-row">
+                            ${skillsChips}
+                        </div>
+                    </div>
+
+                    <div class="profile-card-footer">
+                        <div style="font-size: 0.8rem; color: var(--text-light);">
+                            ${p.studentId ? `ID: ${escapeHtml(p.studentId)}` : 'Alumni Network'}
+                        </div>
+                        <div class="action-btn-group">
+                            <button class="btn btn-outline btn-sm" onclick="viewProfileDetail(${p.id})">
+                                Details →
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="openEditModal(${p.id})">
+                                ✏️ Edit
+                            </button>
+                            <button class="btn btn-danger-outline btn-sm" onclick="confirmDeleteProfile(${p.id})">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `;
+                gridViewContainer.appendChild(card);
+            });
+        }
+
+        // View Mode Toggle
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            document.getElementById('viewBtnTable').classList.toggle('active', mode === 'table');
+            document.getElementById('viewBtnGrid').classList.toggle('active', mode === 'grid');
+            renderProfiles();
+        }
+
+        // Handle Filter Changes
+        function handleFilterChange() {
+            renderProfiles();
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            searchInput.value = '';
+            filterYear.value = '';
+            filterMajor.value = '';
+            filterCompany.value = '';
+            filterJob.value = '';
+            filterIndustry.value = '';
+            renderProfiles();
+            showToast('Filters cleared', 'success');
+        }
+
+        // Open & Close Add Alumni Modal
+        function openAddModal() {
+            document.getElementById('addAlumniForm').reset();
+            addAlumniModal.classList.add('show');
+        }
+
+        function closeAddModal() {
+            addAlumniModal.classList.remove('show');
+        }
+
+        // Open & Close Edit Alumni Modal
+        function openEditModal(profileId) {
+            const profile = allAlumniProfiles.find(p => p.id === profileId);
+            if (!profile) return;
+
+            document.getElementById('editProfileId').value = profile.id;
+            document.getElementById('editFormName').value = profile.name || '';
+            document.getElementById('editFormGradYear').value = profile.gradYear || '';
+            document.getElementById('editFormStudentId').value = profile.studentId || '';
+            document.getElementById('editFormMajor').value = profile.major || '';
+            document.getElementById('editFormCompany').value = profile.company || '';
+            document.getElementById('editFormJobTitle').value = profile.jobTitle || '';
+            document.getElementById('editFormIndustry').value = profile.industry || 'Software & Cloud';
+            document.getElementById('editFormLinkedin').value = profile.linkedin || '';
+            document.getElementById('editFormEmail').value = profile.email || '';
+            document.getElementById('editFormSkills').value = Array.isArray(profile.skills) ? profile.skills.join(', ') : '';
+
+            // If detail modal is open, close it
+            closeDetailModal();
+            editAlumniModal.classList.add('show');
+        }
+
+        function closeEditModal() {
+            editAlumniModal.classList.remove('show');
+        }
+
+        // Delete Confirmation Modal
+        function confirmDeleteProfile(profileId) {
+            const profile = allAlumniProfiles.find(p => p.id === profileId);
+            if (!profile) return;
+
+            pendingDeleteId = profileId;
+            document.getElementById('deleteAlumniName').innerText = profile.name;
+            
+            // If detail modal is open, close it
+            closeDetailModal();
+            deleteConfirmModal.classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            deleteConfirmModal.classList.remove('show');
+            pendingDeleteId = null;
+        }
+
+        // Execute Delete Profile via DELETE API
+        async function executeDeleteProfile() {
+            if (!pendingDeleteId) return;
+
+            const btn = document.getElementById('btnConfirmDelete');
+            const origText = btn.innerText;
+            btn.innerText = 'Deleting...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`/api/alumni-profiles/${pendingDeleteId}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Failed to delete profile.');
+                }
+
+                showToast(data.message || 'Alumni profile deleted successfully.', 'success');
+                closeDeleteModal();
+                await loadProfiles();
+
+            } catch (err) {
+                console.error('Delete error:', err);
+                showToast(err.message || 'Failed to delete alumni profile.', 'error');
+            } finally {
+                btn.innerText = origText;
+                btn.disabled = false;
+            }
+        }
+
+        // View Profile Detail Modal
+        function viewProfileDetail(profileId) {
+            const profile = allAlumniProfiles.find(p => p.id === profileId);
+            if (!profile) return;
+
+            const initials = profile.name ? profile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'AL';
+            const skillsHtml = Array.isArray(profile.skills) && profile.skills.length 
+                ? profile.skills.map(s => `<span class="badge-tag" style="font-size:0.8rem; padding:4px 10px;">${escapeHtml(s)}</span>`).join(' ')
+                : '<em>None specified</em>';
+
+            const detailBody = document.getElementById('detailModalBody');
+            detailBody.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                    <div class="avatar-circle" style="width: 56px; height: 56px; font-size: 1.25rem;">${initials}</div>
+                    <div>
+                        <h3 style="font-size: 1.3rem; color: var(--text-dark);">${escapeHtml(profile.name)}</h3>
+                        <div style="color: var(--primary); font-weight: 600; font-size: 1rem;">${escapeHtml(profile.jobTitle)} at ${escapeHtml(profile.company)}</div>
+                    </div>
+                </div>
+
+                <div class="card-details-box" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                    <div class="detail-item">
+                        <strong>Graduation Year</strong>
+                        <span>Class of ${escapeHtml(profile.gradYear)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Verification Status</strong>
+                        <span style="color: var(--success-text);">✓ Verified Alumni</span>
+                    </div>
+                    <div class="detail-item" style="grid-column: span 2;">
+                        <strong>Academic Major</strong>
+                        <span>${escapeHtml(profile.major)}</span>
+                    </div>
+                    <div class="detail-item" style="grid-column: span 2;">
+                        <strong>Industry Field</strong>
+                        <span>${escapeHtml(profile.industry || 'Technology / General')}</span>
+                    </div>
+                    ${profile.studentId ? `
+                    <div class="detail-item">
+                        <strong>Student ID</strong>
+                        <span>${escapeHtml(profile.studentId)}</span>
+                    </div>` : ''}
+                    ${profile.email ? `
+                    <div class="detail-item">
+                        <strong>Contact Email</strong>
+                        <span><a href="mailto:${escapeHtml(profile.email)}" style="color: var(--primary);">${escapeHtml(profile.email)}</a></span>
+                    </div>` : ''}
+                </div>
+
+                ${profile.linkedin ? `
+                <div style="margin-bottom: 18px;">
+                    <strong style="display: block; font-size: 0.78rem; text-transform: uppercase; color: var(--text-light); margin-bottom: 6px;">Professional Network</strong>
+                    <a href="${escapeHtml(profile.linkedin)}" target="_blank" class="btn btn-outline btn-sm" style="display: inline-flex; gap: 6px;">
+                        🔗 LinkedIn Profile ↗
+                    </a>
+                </div>` : ''}
+
+                <div>
+                    <strong style="display: block; font-size: 0.78rem; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px;">Key Focus Areas & Skills</strong>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        ${skillsHtml}
+                    </div>
+                </div>
+            `;
+
+            const detailFooter = document.getElementById('detailModalFooter');
+            detailFooter.innerHTML = `
+                <button type="button" class="btn btn-danger-outline" onclick="confirmDeleteProfile(${profile.id})">🗑️ Delete Profile</button>
+                <button type="button" class="btn btn-primary" onclick="openEditModal(${profile.id})">✏️ Edit Profile</button>
+                <button type="button" class="btn btn-outline" onclick="closeDetailModal()">Close</button>
+            `;
+
+            viewDetailModal.classList.add('show');
+        }
+
+        function closeDetailModal() {
+            viewDetailModal.classList.remove('show');
+        }
+
+        // Handle Add Alumni Form Submit via POST API
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('formName').value.trim();
+            const gradYear = document.getElementById('formGradYear').value;
+            const studentId = document.getElementById('formStudentId').value.trim();
+            const major = document.getElementById('formMajor').value.trim();
+            const company = document.getElementById('formCompany').value.trim();
+            const jobTitle = document.getElementById('formJobTitle').value.trim();
+            const industry = document.getElementById('formIndustry').value.trim();
+            const linkedin = document.getElementById('formLinkedin').value.trim();
+            const email = document.getElementById('formEmail').value.trim();
+            const skillsStr = document.getElementById('formSkills').value.trim();
+
+            if (!name || !gradYear || !major || !company || !jobTitle) {
+                showToast('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('btnSubmitProfile');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = 'Publishing...';
+            submitBtn.disabled = true;
+
+            try {
+                const payload = {
+                    name,
+                    gradYear: parseInt(gradYear),
+                    studentId,
+                    major,
+                    company,
+                    jobTitle,
+                    industry,
+                    linkedin,
+                    email,
+                    skills: skillsStr ? skillsStr.split(',').map(s => s.trim()).filter(Boolean) : []
+                };
+
+                const response = await fetch('/api/alumni-profiles', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Failed to submit profile.');
+                }
+
+                showToast('Profile published successfully to directory!', 'success');
+                closeAddModal();
+                await loadProfiles();
+
+            } catch (err) {
+                console.error('Submission error:', err);
+                showToast(err.message || 'Error publishing profile.', 'error');
+            } finally {
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Handle Edit Alumni Form Submit via PUT API
+        async function handleEditFormSubmit(e) {
+            e.preventDefault();
+
+            const profileId = document.getElementById('editProfileId').value;
+            const name = document.getElementById('editFormName').value.trim();
+            const gradYear = document.getElementById('editFormGradYear').value;
+            const studentId = document.getElementById('editFormStudentId').value.trim();
+            const major = document.getElementById('editFormMajor').value.trim();
+            const company = document.getElementById('editFormCompany').value.trim();
+            const jobTitle = document.getElementById('editFormJobTitle').value.trim();
+            const industry = document.getElementById('editFormIndustry').value.trim();
+            const linkedin = document.getElementById('editFormLinkedin').value.trim();
+            const email = document.getElementById('editFormEmail').value.trim();
+            const skillsStr = document.getElementById('editFormSkills').value.trim();
+
+            if (!name || !gradYear || !major || !company || !jobTitle) {
+                showToast('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('btnUpdateProfile');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = 'Saving...';
+            submitBtn.disabled = true;
+
+            try {
+                const payload = {
+                    name,
+                    gradYear: parseInt(gradYear),
+                    studentId,
+                    major,
+                    company,
+                    jobTitle,
+                    industry,
+                    linkedin,
+                    email,
+                    skills: skillsStr ? skillsStr.split(',').map(s => s.trim()).filter(Boolean) : []
+                };
+
+                const response = await fetch(`/api/alumni-profiles/${profileId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Failed to update profile.');
+                }
+
+                showToast('Profile updated successfully!', 'success');
+                closeEditModal();
+                await loadProfiles();
+
+            } catch (err) {
+                console.error('Update error:', err);
+                showToast(err.message || 'Error updating profile.', 'error');
+            } finally {
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Show Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toast.className = `toast ${type}`;
+            toastMessage.innerText = message;
+            toastIcon.innerText = type === 'success' ? '✓' : '⚠️';
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // Helper: Escape HTML to prevent XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Close modals on clicking outside backdrop
+        window.addEventListener('click', (e) => {
+            if (e.target === addAlumniModal) {
+                closeAddModal();
+            }
+            if (e.target === editAlumniModal) {
+                closeEditModal();
+            }
+            if (e.target === deleteConfirmModal) {
+                closeDeleteModal();
+            }
+            if (e.target === viewDetailModal) {
+                closeDetailModal();
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfiles();
+        });
+    </script>
+</body>
+</html>

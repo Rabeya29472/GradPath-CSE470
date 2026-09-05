@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resume Critique Queue</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="resume.css">
+
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="brand">🚀 GradPath Portal</div>
+
+        <a href="index.html" class="nav-btn">🏠 Home Hub</a>
+
+        <a href="mentor-matchmaker.html" class="nav-btn">🤝 Mentor Matchmaker</a>
+
+        <a href="verify.html" class="nav-btn">🛡️ Verification Portal (F8)</a>
+
+        <a href="prep-guide.html" class="nav-btn">📋 Prep Guide Generator (F12)</a>
+
+        <!-- Our Features -->
+
+        <a href="booking.html" class="nav-btn">📅 Interview Booking</a>
+
+        <a href="resume.html" class="nav-btn active">📄 Resume Critique Queue</a>
+
+    </div>
+
+    <!-- Workspace -->
+
+    <div class="workspace">
+
+        <h2>Resume Critique Request</h2>
+
+        <p class="subtitle">
+            Submit your resume for professional feedback from verified alumni mentors.
+        </p>
+
+        <div class="page-grid">
+
+            <!-- Student Information -->
+
+            <div class="form-card">
+
+                <h3>Student Information</h3>
+
+                <label for="studentName">Student Name</label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your full name"
+                >
+
+                <label for="studentId">Student ID</label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter your student ID"
+                >
+
+                <label for="mentor">Select Mentor</label>
+
+                <select id="mentor">
+
+                    <option value="">Choose Mentor</option>
+
+                    <option>Sarah Ahmed (Software Engineer)</option>
+
+                    <option>Tanvir Hasan (Data Scientist)</option>
+
+                    <option>Nusrat Jahan (UI/UX Designer)</option>
+
+                </select>
+
+            </div>
+
+            <!-- Resume Guidelines -->
+
+            <div class="info-card">
+
+                <h3>Resume Guidelines</h3>
+
+                <ul>
+
+                    <li>PDF format only</li>
+
+                    <li>Maximum size: 5 MB</li>
+
+                    <li>Use ATS-friendly formatting</li>
+
+                    <li>One page is recommended</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- Resume Upload -->
+
+        <div class="upload-card">
+
+            <h3>Upload Resume</h3>
+
+            <div class="upload-box">
+
+                <div class="upload-icon">📄</div>
+
+                <p class="upload-title">
+                    Drag &amp; Drop your resume here
+                </p>
+
+                <p class="upload-subtitle">
+                    or select a PDF from your computer
+                </p>
+
+                <input
+                    type="file"
+                    id="resumeFile"
+                    accept=".pdf"
+                >
+
+                <p id="selectedFile">
+                    No file selected
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Additional Notes -->
+
+        <div class="notes-card">
+
+            <h3>Additional Notes</h3>
+
+            <textarea
+                id="notes"
+                rows="6"
+                placeholder="Write anything you want your mentor to know..."
+            ></textarea>
+
+        </div>
+
+        <button id="submitBtn">
+            Submit Resume Request
+        </button>
+
+    </div>
+
+    <script src="resume.js"></script>
+
+</body>
+
+</html>
