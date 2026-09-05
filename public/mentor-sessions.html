@@ -562,151 +562,202 @@
 
 
 <script>
-
     function loadSessions() {
 
-        fetch("/api/bookings")
+    fetch("/api/bookings")
 
-            .then(response => response.json())
+        .then(response => response.json())
 
-            .then(bookings => {
+        .then(bookings => {
 
-                const container =
-                    document.getElementById("sessionList");
+            const container =
+                document.getElementById("sessionList");
 
+            if (!bookings || bookings.length === 0) {
 
-                if (!bookings || bookings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>
+                            No Interview Sessions
+                        </h3>
 
-                    container.innerHTML = `
-                        <div class="empty-state">
+                        <p>
+                            There are currently no booked interview sessions.
+                        </p>
+                    </div>
+                `;
 
-                            <h3>
-                                No Interview Sessions
-                            </h3>
+                return;
+            }
 
-                            <p>
-                                There are currently no booked interview sessions.
-                            </p>
+            let html = "";
 
-                        </div>
-                    `;
+            bookings.forEach(booking => {
 
-                    return;
-                }
+                html += `
+                    <div class="session-card">
 
+                        <div class="session-info">
 
-                let html = "";
-
-
-                bookings.forEach(booking => {
-
-                    html += `
-                        <div class="session-card">
-
-                            <div class="session-info">
-
-                                <div>
-
-                                    <div class="info-label">
-                                        Student
-                                    </div>
-
-                                    <div class="info-value">
-                                        ${booking.studentName || "Not Provided"}
-                                    </div>
-
+                            <div>
+                                <div class="info-label">
+                                    Student
                                 </div>
 
-
-                                <div>
-
-                                    <div class="info-label">
-                                        Student ID
-                                    </div>
-
-                                    <div class="info-value">
-                                        ${booking.studentId || "Not Provided"}
-                                    </div>
-
+                                <div class="info-value">
+                                    ${booking.studentName || "Not Provided"}
                                 </div>
-
-
-                                <div>
-
-                                    <div class="info-label">
-                                        Mentor
-                                    </div>
-
-                                    <div class="info-value">
-                                        ${booking.mentor}
-                                    </div>
-
-                                </div>
-
                             </div>
 
-
-                            <div class="session-footer">
-
-                                <div class="session-status">
-
-                                    Interview Time:
-                                    <strong>
-                                        ${booking.time}
-                                    </strong>
-
+                            <div>
+                                <div class="info-label">
+                                    Student ID
                                 </div>
 
+                                <div class="info-value">
+                                    ${booking.studentId || "Not Provided"}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="info-label">
+                                    Mentor
+                                </div>
+
+                                <div class="info-value">
+                                    ${booking.mentor}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="session-footer">
+
+                            <div class="session-status">
+                                Interview Time:
+                                <strong>
+                                    ${booking.time}
+                                </strong>
+                            </div>
+
+                            <div>
 
                                 <button
                                     class="grade-btn"
                                     onclick="openGrading(${booking.id})">
-
                                     Grade Interview
-
                                 </button>
+
+                                ${
+                                    booking.studentId
+                                        ? `
+                                            <button
+                                                class="no-show-btn"
+                                                onclick="markNoShow(${booking.id}, '${booking.studentId}')">
+                                                Mark No-Show
+                                            </button>
+                                        `
+                                        : ''
+                                }
 
                             </div>
 
                         </div>
-                    `;
-
-                });
-
-
-                container.innerHTML = html;
-
-            })
-
-            .catch(error => {
-
-                console.error(error);
-
-                document.getElementById("sessionList").innerHTML = `
-                    <div class="empty-state">
-
-                        <h3>
-                            Unable to Load Sessions
-                        </h3>
-
-                        <p>
-                            Please make sure the server is running.
-                        </p>
 
                     </div>
                 `;
 
             });
 
+            container.innerHTML = html;
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            document.getElementById("sessionList").innerHTML = `
+                <div class="empty-state">
+
+                    <h3>
+                        Unable to Load Sessions
+                    </h3>
+
+                    <p>
+                        Please make sure the server is running.
+                    </p>
+
+                </div>
+            `;
+
+        });
+}
+
+
+/* Mark a student as a no-show */
+
+function markNoShow(bookingId, studentId) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to mark this student as a no-show?"
+        );
+
+    if (!confirmed) {
+        return;
     }
 
+    fetch("/api/no-show/blacklist", {
 
-    let currentBookingId = null;
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            bookingId,
+            studentId
+        })
+
+    })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            if (data.success) {
+                loadSessions();
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error marking no-show:",
+                error
+            );
+
+            alert(
+                "Unable to record the no-show."
+            );
+
+        });
+}
 
 
-    function openGrading(bookingId) {
+let currentBookingId = null;
 
-        currentBookingId = bookingId;
+
+function openGrading(bookingId) {
+
+    currentBookingId = bookingId;
+
+
 
 
         fetch("/api/bookings")
