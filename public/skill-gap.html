@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GradPath - Skill-Gap Assessment</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #0f172a;
+            color: white;
+            padding: 28px 18px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .role-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .role {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .content {
+            flex: 1;
+            padding: 45px 55px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .card {
+            max-width: 900px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .student-info {
+            margin-top: 12px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 9px;
+            color: #475569;
+            font-size: 14px;
+            display: none;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .skill-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .skill-option:hover {
+            border-color: #93c5fd;
+            background: #eff6ff;
+        }
+
+        .skill-option input {
+            width: 17px;
+            height: 17px;
+            accent-color: #2563eb;
+        }
+
+        .skill-option span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 14px;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .content {
+                padding: 30px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">GradPath</div>
+
+        <div class="role-label">Current Role</div>
+        <div class="role">Alumni</div>
+
+        <a href="index.html" class="nav-link">
+            Home
+        </a>
+
+        <a href="mentor-hub.html" class="nav-link">
+            Mentor Hub
+        </a>
+
+        <a href="mentor-sessions.html" class="nav-link">
+            Interview Sessions
+        </a>
+
+        <a href="alumni-career-profile-directory.html" class="nav-link">
+            Career Directory
+        </a>
+
+        <a href="mentor-review.html" class="nav-link">
+            Resume Review
+        </a>
+
+        <a href="skill-gap.html" class="nav-link active">
+            Skill-Gap Assessment
+        </a>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="header">
+            <h1>Skill-Gap Assessment</h1>
+            <p>
+                Identify modern skills and tools that a student should develop
+                for today's job market.
+            </p>
+        </div>
+
+        <div class="card">
+
+    <div class="section">
+
+        <div class="section-title">
+            Alumni Reviewer
+        </div>
+
+        <label for="alumniSelect">
+            Reviewed By
+        </label>
+
+        <select id="alumniSelect">
+            <option value="">
+                Select alumni reviewer
+            </option>
+        </select>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-title">
+            Select Student
+        </div>
+
+        <label for="studentSelect">
+            Student
+        </label>
+
+        <select id="studentSelect">
+            <option value="">
+                Select a student
+            </option>
+        </select>
+
+        <div id="studentInfo" class="student-info"></div>
+
+    </div>
+
+                <label for="studentSelect">
+                    Student
+                </label>
+
+                <select id="studentSelect">
+                    <option value="">
+                        Select a student
+                    </option>
+                </select>
+
+                <div id="studentInfo" class="student-info"></div>
+
+            </div>
+
+            <div class="section">
+
+                <div class="section-title">
+                    Modern Skills and Tools
+                </div>
+
+                <p style="color:#64748b;font-size:14px;margin-top:-5px;margin-bottom:18px;">
+                    Select the skills or tools the student should develop.
+                </p>
+
+                <div class="skills-grid">
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Python">
+                        <span>Python</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="SQL">
+                        <span>SQL</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Git / GitHub">
+                        <span>Git / GitHub</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Docker">
+                        <span>Docker</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="AWS / Cloud">
+                        <span>AWS / Cloud</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Machine Learning">
+                        <span>Machine Learning</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="React">
+                        <span>React</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Node.js">
+                        <span>Node.js</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Data Analysis">
+                        <span>Data Analysis</span>
+                    </label>
+
+                    <label class="skill-option">
+                        <input type="checkbox" value="Generative AI / LLMs">
+                        <span>Generative AI / LLMs</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <div class="section-title">
+                    Alumni Recommendation
+                </div>
+
+                <textarea
+                    id="recommendation"
+                    placeholder="Explain what the student should focus on and why..."
+                ></textarea>
+
+            </div>
+
+            <button class="submit-btn" onclick="submitAssessment()">
+                Submit Assessment
+            </button>
+
+            <div id="message" class="message"></div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="skill-gap.js"></script>
+
+</body>
+</html>
